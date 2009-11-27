@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/svnroot/!svn/ver/13696/sandbox/trunk/agrangaard/config/.vim/plugin
+END
+cecutil.vim
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svnroot/!svn/ver/5495/sandbox/trunk/agrangaard/config/.vim/plugin/cecutil.vim
+END
+matchit.vim
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svnroot/!svn/ver/6181/sandbox/trunk/agrangaard/config/.vim/plugin/matchit.vim
+END
+projtags.vim
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/svnroot/!svn/ver/6179/sandbox/trunk/agrangaard/config/.vim/plugin/projtags.vim
+END
+vcscommand.vim
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/svnroot/!svn/ver/12331/sandbox/trunk/agrangaard/config/.vim/plugin/vcscommand.vim
+END
+vcsgit.vim
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svnroot/!svn/ver/12331/sandbox/trunk/agrangaard/config/.vim/plugin/vcsgit.vim
+END
+EnhancedCommentify.vim
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/svnroot/!svn/ver/6181/sandbox/trunk/agrangaard/config/.vim/plugin/EnhancedCommentify.vim
+END
+ctags.vim
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svnroot/!svn/ver/12071/sandbox/trunk/agrangaard/config/.vim/plugin/ctags.vim
+END
+vimballPlugin.vim
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/svnroot/!svn/ver/5495/sandbox/trunk/agrangaard/config/.vim/plugin/vimballPlugin.vim
+END
+project.vim
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svnroot/!svn/ver/6179/sandbox/trunk/agrangaard/config/.vim/plugin/project.vim
+END
+taglist.vim
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svnroot/!svn/ver/6179/sandbox/trunk/agrangaard/config/.vim/plugin/taglist.vim
+END
+vcscvs.vim
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svnroot/!svn/ver/12331/sandbox/trunk/agrangaard/config/.vim/plugin/vcscvs.vim
+END
+vcsbzr.vim
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svnroot/!svn/ver/12331/sandbox/trunk/agrangaard/config/.vim/plugin/vcsbzr.vim
+END
+AlignPlugin.vim
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/svnroot/!svn/ver/5495/sandbox/trunk/agrangaard/config/.vim/plugin/AlignPlugin.vim
+END
+vcshg.vim
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svnroot/!svn/ver/12331/sandbox/trunk/agrangaard/config/.vim/plugin/vcshg.vim
+END
+AlignMaps.vim
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/svnroot/!svn/ver/5495/sandbox/trunk/agrangaard/config/.vim/plugin/AlignMaps.vim
+END
+vcssvk.vim
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svnroot/!svn/ver/9416/sandbox/trunk/agrangaard/config/.vim/plugin/vcssvk.vim
+END
+vcssvn.vim
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svnroot/!svn/ver/12331/sandbox/trunk/agrangaard/config/.vim/plugin/vcssvn.vim
+END

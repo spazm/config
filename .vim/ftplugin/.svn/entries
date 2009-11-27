@@ -1,0 +1,55 @@
+9
+
+dir
+16571
+http://nile:1984/svn/svnroot/sandbox/trunk/agrangaard/config/.vim/ftplugin
+http://nile:1984/svn/svnroot
+
+
+
+2009-03-10T23:28:59.084351Z
+8593
+agrangaard
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+9960bdf0-3236-0410-bccd-e32d26276c50
+
+tex
+dir
+
+matlab
+dir
+
+perl
+dir
+
+cpp
+dir
+
+c
+dir
+
+html
+dir
+
+vim
+dir
+
+bib
+dir
+
+maple
+dir
+

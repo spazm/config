@@ -1,0 +1,15 @@
+escape `~
+nethack on
+vbell on
+
+#kill startup message
+startup_message off
+
+# define a bigger scrollback, default is 100 lines
+defscrollback 2048
+
+hardstatus on
+#hardstatus alwayslastline "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a "
+
+hardstatus alwayslastline "%{-b gk}%-w%{+b kg}%50>%n %t%{-b gk}%+w%<"
+#hardstatus alwayslastline "%{rk}%H %{gk}%c %{yk}%M%d %{wk}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{wk}%?%+Lw%?"
