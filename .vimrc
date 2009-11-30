@@ -65,12 +65,11 @@ set ignorecase      " Do case insensitive matching
 " remove change the following statements
 set nocompatible     " Use Vim defaults (much better!)
 set backspace=2      " allow backspacing over everything in insert mode
-" TABS!
-"set ts=4            " display tabs as 4
-"set softtabstop=4   " soft tabs
-"set shiftwidth=4    " how far to shift with << >> and ctrl-N, ctrl-D
 
+
+" TABS!
 "http://vim.wikia.com/wiki/Indenting_source_code
+"set ts=4            " display tabs as 4
 set expandtab        " typed tabs become spaces (CTRL-V TAB to type a literal tab)
 set shiftwidth=4     " << >> is in units of 4.  
                      " With smart tab, tab at start-of-line is this size also
@@ -232,7 +231,7 @@ autocmd FileType perl set showmatch
 
 " check perl code with :make
 "autocmd FileType perl set makeprg=perl\ -c\ %\ $*
-autocmd FileType perl set makeprg=$VIMRUNTIME/tools/efm_perl.pl\ -c\ %\ $*
+autocmd FileType perl set makeprg=perl\ $VIMRUNTIME/tools/efm_perl.pl\ -c\ %\ $*
 autocmd FileType perl set errorformat=%f:%l:%m
 autocmd FileType perl set autowrite
 
@@ -244,8 +243,8 @@ vmap <tab> >gv
 vmap <s-tab> <gv
 
 " make tab in normal mode ident code
-nmap <tab> I<tab><esc>
-nmap <s-tab> ^i<bs><esc>
+nmap <tab>   >>
+nmap <s-tab> <<
 
 " my perl includes pod
 let perl_include_pod = 1
