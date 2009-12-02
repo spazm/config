@@ -1,4 +1,4 @@
-syn include @Sql <sfile>:p:h/sql.vim
-syn region perlSQL start="qq{" end="}" contains=@Sql keepend
-syn region perlSQL start="qq\[" end="\]" contains=@Sql keepend
-syn region perlSQL start="<<SQL" end="^SQL" contains=@Sql keepend
+syn include @SQL syntax/sql.vim
+syn region perlSQL start="qq{"   end="}"    contains=@SQL keepend
+syn region perlSQL start="qq\["  end="\]"   contains=@SQL keepend
+syn region perlSQL start="<<SQL" end="^SQL" contains=@SQL keepend
