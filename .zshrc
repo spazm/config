@@ -46,8 +46,10 @@ PATH=${PATH:+$PATH:}$HOME/.toast/armed/bin:$HOME/.toast/armed/sbin:$HOME/mybin/:
 #Build ctags file, skipping .svn directories, from here down the tree.
 function ctagit ()
 {
-	ctags -f tags --recurse --totals --exclude=blib --exclude=.svn --exclude='*~' \
-    --languages=Perl --langmap=Perl:+.t
+	ctags -f tags --recurse --totals \
+        --exclude=blib --exclude=.svn    \
+        --exclue=.git  --exclude='*~'    \
+        --languages=Perl --langmap=Perl:+.t
 }
 
 export EDITOR=vim
