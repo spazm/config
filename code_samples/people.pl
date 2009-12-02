@@ -19,7 +19,7 @@ my $people = [
 
 foreach my $person (@$people) {
 format STDOUT =
-Name: @<<<<<<<<<<<<<<<<<<        
+Name: @<<<<<<<<<<<<<<<<<<
 (sprintf '%s %s', $person->{first_name}, $person->{last_name})
 Website: @<<<<<<<<<<<<<<<<<<<<<<<
 $person->{website}
