@@ -1,0 +1,133 @@
+# This is a sample Vroom input file. It should help you get started.
+#
+# Edit this file with your content. Then run `vroom --vroom` to start
+# the show!
+#
+# See `perldoc Vroom::Vroom` for complete details.
+#
+---- config
+# Basic config options.
+title: Vroom!
+indent: 5
+height: 18
+width: 69
+skip: 0
+
+# The following options are for Gvim usage.
+# vim: gvim
+# fuopt: maxhorz,maxvert
+# guioptions: egmLtT
+# guicursor: a:blinkon0-ver25-Cursor
+# guifont: Bitstream_Vera_Sans_Mono:h18
+
+---- center
+
+Perl and Vim tips
+
+by Andrew Grangaard and Tommy
+
+
+----
+== TOPICS
+* Vroom
+* make/quickfix support
+* perltidy integration
+* perltidy rc
+* ctags
+* keyword/omnicompletion
+
+----
+== VROOM
+
+* Edit slides in Vi present in Vim!
+* cpan Vroom::Vroom
+* http://search.cpan.org/dist/Vroom/
+* mix slides with syntax highlighted vim documents
+
++== Simple Vroom
+* make a new directory for your slides
+* vroom -new or just vim slides.vroom
+* vim slides.vroom to edit slides.  
+** Fake YAML format. ---- for page separator
+** Can add syntax highlighted chunks and external files
+* Run 'vroom --vroom' to start presentation mode
+* Voilà!
+
+----
+== VROOM navigation/presentation commands
+
+* Hit <SPACE> to move forward.
+* Hit <BACKSPACE> to go backwards.
+* Hit 'Q' to quit.
+* Hit 'RR' to execute the current page as program and show STDOUT.
+* Hit 'QQ' to quit.
+* Hit 'EE' to edit a file whose name is under the cursor.
+* Hit 'VV' to launch Vroom on the current buffer.
+
++
+== Caveats
+* need to have 'set exrc' enabled in base .vimrc to get the bindings
+* the bindings are active while editing slides.vroom
+
+---- perl,i4
+=pod
+ Note: lifted directly from the docs
+=cut
+# This is some Perl code.
+# Notice the syntax highlighting.
+# Run it with the <RR> vim command.
+for my $word (qw(Vroom totally rocks!)) {
+    print "$word\n";
+}
+
+---- i-4
+== Quickfix / make support
+
+  from :help make
+  | The ":make" command executes the command given with the 'makeprg' option.
+  | This is done by passing the command to the shell given with the 'shell'
+  | option.  This works almost like typing
+  | 
+  |        ":!{makeprg} [arguments] {shellpipe} {errorfile}".
+
+"Settings from my .vimrc:
+autocmd FileType perl set makeprg=perl\ $VIMRUNTIME/tools/efm_perl.pl\ -c\ %\ $*
+autocmd FileType perl set errorformat=%f:%l:%m
+autocmd FileType perl set autowrite
+
+  Vim comes with efm_perl.pl to parse the output of perl -c error reporting 
+  and convert to the format vim expects (from the Amiga days).  It is not +x, 
+  so I execute it via explicit perl efm_perl.pl.
+
+----
+== Navigating the Quickfix list
+
+:cc[!] [nr]   Display error [nr], or current error if [nr] is omitted
+:cn           next error
+:cN           previous error
+:cl           show quickfix list 
+:cw           show quickfix list in new frame.
+:cnf          jump to the next file in the list that includes a file name.
+
+:.cc          in quicklist frame, jump to current line error in 
+              primary editor window (return does the same thing)
+
++*Older error lists
+:col[der]   Go to a previous (older) error list.
+:cnew[er]   Go to a newer error list
+
+---- perl,i4
+#!/usr/bin/perl
+# Example with errors
+
+use strict;
+use warnings;
+
+$foo = 3;
+my $bar = 5;
+my $baz = $zoom . "zoom";
+
+----
+== Quickfix vim help
+:help quickfix
+:help make
