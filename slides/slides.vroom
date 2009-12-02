@@ -131,3 +131,71 @@ my $baz = $zoom . "zoom";
 == Quickfix vim help
 :help quickfix
 :help make
+:help makeprg
+
+----
+== Perltidy integration
+
+* cpan Perl::Tidy
+* create .perltidyrc
+* add binding to .vimrc
+
+.vimrc: 
+  vnoremap <silent> ,t :!perltidy -q<Enter>
+  set equalprg=perltidy
+
+----
+---- include ../.perltidyrc
+
+----
+== Ctags
+
+* exuberant ctags  ( http://ctags.sf.net/ )
+* manual tag file:
+
+function ctagit ()
+{
+        ctags -f tags --recurse --totals \
+        --exclude=blib --exclude=.svn    \
+        --exclue=.git  --exclude='*~'    \
+        --languages=Perl --langmap=Perl:+.t
+}
+
+----
+== Ctags Usage:
+
+vim -t subroutine_name 
+:tag subroutine_name
+ctrl-] jump to definition of subroutine under cursor.
+   All will jump to appropriate file.
+
+ctrl-t or :pop to jump back
+(or just use ctrl-i and ctrl-o to jump between recent input points)
+
+Configure tag file for project:
+:set tags=tags\ /path/to/tags/for/project.tags
+
+----
+== Omnicompletion
+
+:help new-omni-completion
+http://www.perlmonks.org/?node_id=621766
+http://www.vim.org/scripts/script.php?script_id=1924
+
++ omniperl.zip version v1.1, 2007-06-17
+| Note : This script is a bit buggy and wrong in the details.
+| It needs a more theoretical sound basis, rework or maybe a 
+| different approach. 
+
+ctrl-x ctrl-o in insert mode to use omnicompletion.
+(Have to get omnicompletion enabled first)
+
+SuperTab simplifies ctrl-x ctrl-o down to just <tab>
+http://www.vim.org/scripts/script.php?script_id=1643
+:help ins-completion
+
+----perl
+
+my $now = DateTime->now;
+$now->
+
