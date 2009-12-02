@@ -21,12 +21,9 @@ skip: 0
 # guifont: Bitstream_Vera_Sans_Mono:h18
 
 ---- center
-
 Perl and Vim tips
 
-by Andrew Grangaard and Tommy
-
-
+by Andrew Grangaard and Tommy Stanton
 ----
 == TOPICS
 * Vroom
@@ -35,7 +32,6 @@ by Andrew Grangaard and Tommy
 * perltidy rc
 * ctags
 * keyword/omnicompletion
-
 ----
 == VROOM
 
@@ -44,7 +40,8 @@ by Andrew Grangaard and Tommy
 * http://search.cpan.org/dist/Vroom/
 * mix slides with syntax highlighted vim documents
 
-+== Simple Vroom
+----
+== Simple Vroom
 * make a new directory for your slides
 * vroom -new or just vim slides.vroom
 * vim slides.vroom to edit slides.  
@@ -70,9 +67,8 @@ by Andrew Grangaard and Tommy
 * the bindings are active while editing slides.vroom
 
 ---- perl,i4
-=pod
- Note: lifted directly from the docs
-=cut
+# Note: lifted directly from the docs
+
 # This is some Perl code.
 # Notice the syntax highlighting.
 # Run it with the <RR> vim command.
@@ -146,6 +142,8 @@ my $baz = $zoom . "zoom";
 
 ----
 ---- include ../.perltidyrc
+----
+---- include ../code_samples/perltidy-example.pl
 
 ----
 == Ctags
@@ -199,3 +197,13 @@ http://www.vim.org/scripts/script.php?script_id=1643
 my $now = DateTime->now;
 $now->
 
+
+----
+== Tommy Time (II)
+* people.pl
+* people.json
+----
+---- include ../code_samples/people.pl
+
+----
+---- include ../code_samples/people.json
