@@ -1,2 +1,8 @@
+# vroom slides
 0*
+# vroom temp files
+.help
+.vimrc
+
+" vim swap files
 *.swp
