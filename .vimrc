@@ -281,3 +281,6 @@ let perl_fold_blocks=1  "fold perl loops and blocks.
 set foldlevel=99 "default to no folding
 
 set exrc
+
+"enable the ftplugin directories to get loaded
+filetype plugin on
