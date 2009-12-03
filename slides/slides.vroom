@@ -141,7 +141,7 @@ my $baz = $zoom . "zoom";
   set equalprg=perltidy
 
 ----
----- include ../.perltidyrc
+---- include ../perltidyrc
 ----
 ---- include ../code_samples/perltidy-example.pl
 
