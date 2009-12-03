@@ -1,0 +1,2 @@
+Align.vba: call delete('/home/agrangaard/.vim/plugin/AlignPlugin.vim')|call delete('/home/agrangaard/.vim/plugin/AlignMaps.vim')|call delete('/home/agrangaard/.vim/plugin/cecutil.vim')|call delete('/home/agrangaard/.vim/doc/Align.txt')|call delete('/home/agrangaard/.vim/autoload/Align.vim')
+omniperl.vba: call delete('/home/agrangaard/.vim/ftplugin/perl/omniperl.pl')|call delete('/home/agrangaard/.vim/ftplugin/perl/omniperl.vim')|call delete('/home/agrangaard/.vim/doc/omniperl.txt')
