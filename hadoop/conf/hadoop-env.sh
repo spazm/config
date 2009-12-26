@@ -7,6 +7,7 @@
 
 # The java implementation to use.  Required.
 # export JAVA_HOME=/usr/lib/j2sdk1.5-sun
+export JAVA_HOME=/usr/lib/jvm/java-6-sun
 
 # Extra Java CLASSPATH elements.  Optional.
 # export HADOOP_CLASSPATH=
@@ -16,6 +17,9 @@
 
 # Extra Java runtime options.  Empty by default.
 # export HADOOP_OPTS=-server
+
+# force ipv4 address space
+HADOOP_OPTS=-Djava.net.preferIPv4Stack=true
 
 # Command specific options appended to HADOOP_OPTS when specified
 export HADOOP_NAMENODE_OPTS="-Dcom.sun.management.jmxremote $HADOOP_NAMENODE_OPTS"
@@ -52,3 +56,4 @@ export HADOOP_JOBTRACKER_OPTS="-Dcom.sun.management.jmxremote $HADOOP_JOBTRACKER
 
 # The scheduling priority for daemon processes.  See 'man nice'.
 # export HADOOP_NICENESS=10
+
