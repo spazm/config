@@ -35,8 +35,8 @@ MAILCHECK=0
 #colors
 
 
-if [ -d $HOME/perl5 ]; then
-    eval `perl -Mlocal::lib=$HOME/perl5`
+if [ -d /apps/perl5 ]; then
+    eval $( perl -Mlocal::lib=/apps/perl5 )
 fi
 
 #add toast directories
