@@ -4,31 +4,33 @@ use strict;
 use warnings;
 
 =pod
-Thomson 1
-Thomson 1
-TR      1
+input: (tab sep)
+  Thomson 1
+  Thomson 1
+  TR      1
+
+output: (tab sep)
+  Thomson 2
+  TR      1
 =cut
 
-###
-# Given grouped rows of key\tvalue
-# emit a list of key\tsum_of value
-# ugly code, prints in two places, has to do cleanup at the end of the while loop.
-
-my $previous = '';
-my $count =0;
-while(my $line = <>)
+my $count        = 0;
+my $previous_key = '';
+while ( my $line = <> )
 {
     chomp $line;
-    my ($key, $value ) = split( /\t/, $line );
-    if ( $key eq $previous )
+    my ( $key, $value ) = split( /\t/, $line );
+    if ( $key eq $previous_key )
     {
         $count += $value;
     }
     else
     {
-        print "$previous\t$count\n" if $previous;
-        $count = $value;
-        $previous = $key
+        print "$previous_key\t\$count\n";
+        $previos_key = $key;
+        $count       = $value;
     }
 }
-print "$previous\t$count\n"
+
+#print final key last
+print "$previous_key\t\$count\n";
