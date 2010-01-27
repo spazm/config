@@ -7,8 +7,8 @@ with 'Hadoop::Streaming::Mapper';
 
 sub map
 {
-    my ( $self, $key, $value ) = @_;
-    my @words = grep { $_ } split( /\W+/, $value);
+    my ( $self, $line ) = @_;
+    my @words = grep { $_ } split( /\W+/, $line);
     $self->emit($_,1) for @words;
 }
 
