@@ -1,0 +1,267 @@
+# This is a sample Vroom input file. It should help you get started.
+#
+# Edit this file with your content. Then run `vroom --vroom` to start
+# the show!
+#
+# See `perldoc Vroom::Vroom` for complete details.
+#
+---- config
+# Basic config options.
+title: Hadoop Streaming and Perl
+indent: 5
+height: 18
+width: 69
+skip: 0
+
+# The following options are for Gvim usage.
+# vim: gvim
+# fuopt: maxhorz,maxvert
+# guioptions: egmLtT
+# guicursor: a:blinkon0-ver25-Cursor
+# guifont: Bitstream_Vera_Sans_Mono:h18
+
+---- center
+
+Hadoop Streaming and Perl
+
+by Andrew Grangaard
+
+----
+== What is Hadoop?
+
+Hadoop is a Map/Reduce framework with a distributed filesystem.
+
+* Map/Reduce is an instance of a divide and conquer algorithm.  
+* The input is apportioned to map jobs.  
+* The output is collected and sorted and given to the map job.
+* distributed files system provides redundancy and file+job locality
+* Not an acronym.
+
+
+Hadoop is now part of the apache foundation.
+
+More Info:
+* http://hadoop.apache.org
+
+----
+== Why Hadoop?
+
+* Great for calculating functions where a given output only depends on a small subset of input.
+* Excels on large jobs that can be split across input.
+
+Examples:
+* word count in a collection of files
+* needle in a haystack
+* log parsing / conversion / mining
+* distributed choice algorithms
+* querying multiple datastores and collecting the output.
+----
+== What does Hadoop give me?
+
+* output collation
+* job control
+* job locality / file locality
+* distributed files
+* failure compensation
+* works well in the cloud.
+----
+== Downsides of Hadoop?
+
+* Java.
+* edit, compile, test*, execute on hadoop cycle is long
+* debugging a distributed app 
+
+
+* *test: is there a way to test the java app outside the hadoop framework?
+----
+== Hadoop Streaming
+
+* Hadoop interface abstracted for use by other languages
+* write map and reduce functions that operate on STDIN/STDOUT
+----
+== Hadoop Streaming
+== Advantages
+* easy
+* great for rapid prototyping
+* testing of apps outside of framework
+
++== Disadvantages
+* can't use sequence files
+* still have java overhead, but not fully integrated into the java stack.
+* lots of boilerplate code to deal with STDIN/STDOUT format.
+----
+== Wordcount Example 1
+
+* mapper
+    word-count-map.pl
+* reducer
+    word-count-reduce.pl
+
+run locally as:
+  map < input | sort | reduce
+
+File directory:
+../example/wordcount/1/
+
+---- perl,i4
+---- include ../example/wordcount/1/word-count-map.pl
+
+---- perl,i4
+---- include ../example/wordcount/1/word-count-reduce.pl
+
+----
+== Wordcount Example 2
+
+* mapper
+    word-count-map.pl
+* reducer
+    word-count-reduce.pl
+
+---- perl,i4
+---- include ../example/wordcount/2/word-count-map.pl
+
+---- perl,i4
+---- include ../example/wordcount/2/word-count-reduce.pl
+
+
+----
+== Hadoop::Streaming Module.
+
+* Moose::Role to simplify the boilerplate of map and reduce
+* Hadoop::Streaming::Mapper
+* Hadoop::Streaming::Reducer
+
+For mapper, just write a map() function, for reducer write a reduce() function.
+
+Contract: 
+ * map or reduce is required.
+ * run and emit are added to namespace.
+ * reduce provides a values iterator for key values.
+
+---- perl,i4
+
+=pod
+NAME
+   Hadoop::Streaming::Mapper - Simplify writing Hadoop Streaming jobs.
+   Write a map() and reduce() function and let this role handle the Stream
+   interface.
+
+VERSION
+   version 0.100270
+
+SYNOPSIS
+=cut
+
+     #!/usr/bin/env perl
+
+     package Wordcount::Mapper;
+     use Moose;
+     with 'Hadoop::Streaming::Mapper';
+
+     sub map {
+         my ($self, $line) = @_;
+
+         for (split /\s+/, $line) {
+             $self->emit( $_ => 1 );
+         }
+     }
+
+     package main;
+     Wordcount::Mapper->run;
+---- perl,i4
+=pod
+
+NAME
+   Hadoop::Streaming::Reducer - Simplify writing Hadoop Streaming jobs.
+   Write a map() and reduce() function and let this role handle the Stream
+   interface.  The Reducer roll provides an iterator over the multiple
+   values for a given key.
+
+VERSION
+   version 0.100270
+
+SYNOPSIS
+=cut
+       #!/usr/bin/env perl
+
+       package WordCount::Reducer;
+       use Moose;
+       with qw/Hadoop::Streaming::Reducer/;
+
+       sub reduce {
+           my ($self, $key, $values) = @_;
+
+           my $count = 0;
+           while ( $values->has_next ) {
+               $count++;
+               $values->next;
+           }
+
+           $self->emit( $key => $count );
+       }
+
+       package main;
+       WordCount::Reducer->run;
+----
+== Wordcount Example 4, 
+== with Hadoop::Streaming
+
+* mapper
+    word-count-map.pl
+* reducer
+    word-count-reduce.pl
+
+---- perl,i4
+---- include ../example/wordcount/4/word-count-map.pl
+
+---- perl,i4
+---- include ../example/wordcount/4/word-count-reduce.pl
+
+---- i4
+== Run your hadoop job
+
+hadoop jar /usr/lib/hadoop/contrib/streaming/hadoop-0.20.1+152-streaming.jar \
+-input wordcount \
+-output wordcountout \
+-file examples/wordcount/word-count-map.pl \
+-file examples/wordcount/word-count-reduce.pl  \
+-mapper word-count-map.pl  \
+-reducer word-count-reduce.pl
+
+---- i0
+~/src/hadoop-streaming-frontend/
+
+Changes
+dist.ini
+examples
+lib
+t
+
+:e ~/src/hadoop-streaming-frontend/
+
+----
+== Links and Info
+
+* hadoop 
+  http://hadoop.apache.org
+* hadoop streaming
+
+* Hadoop::Streaming perl module
+  http://search.cpan.org/perldoc?Hadoop::Streaming
+
+* Slides
+  http://github.com/spazm/config/hadoop/slides
+
+* Andrew Grangaard
+  http://lowlevelmanager.com
+
+* Hadoop Slides
+  http://www.lowlevelmanager.com/search/label/hadoop
+
+----
+== Questions
+
+---- center
+== The End
+
+Thank you all for attending.
