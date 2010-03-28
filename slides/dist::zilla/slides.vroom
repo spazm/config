@@ -1,0 +1,144 @@
+# This is a sample Vroom input file. It should help you get started.
+#
+# Edit this file with your content. Then run `vroom --vroom` to start
+# the show!
+#
+# See `perldoc Vroom::Vroom` for complete details.
+#
+---- config
+# Basic config options.
+title: Vroom!
+indent: 0
+height: 18
+width: 69
+skip: 0
+
+# The following options are for Gvim usage.
+# vim: gvim
+# fuopt: maxhorz,maxvert
+# guioptions: egmLtT
+# guicursor: a:blinkon0-ver25-Cursor
+# guifont: Bitstream_Vera_Sans_Mono:h18
+
+---- center
+Dist::Zilla
+"  distribution builder; installer not included!  "
+
+Andrew Grangaard 
+2010-Mar-24
+----
+== LINKS
+
+
+* http://advent.rjbs.manxome.org/2009-12-11.html
+  Intro article from RJBS's advent calendar.
+* http://search.cpan.org/dist/Dist-Zilla/
+  CPAN page
+* http://search.cpan.org/~rjbs/Dist-Zilla-1.100711/lib/Dist/Zilla/Tutorial.pm
+  Tutorial
+
+----
+
+== WHAT IS IT?
+
+Dist::Zilla builds distributions of code to be uploaded to the CPAN.
+
+----
+== WHY NOT?
+Why not some other system?
+
+* ExtUtils::MakeMaker
+* Module::Build
+* Module::Install
+
+"Unlike those tools, however, it is not also a system for installing code that has been downloaded from CPAN"
+
+"free to make much more ludicrous demands in terms of prerequisites."
+----
+== WHY
+
+* Start with code.
+* Lots of awesome plugins.
+* Separate out repo code and published code.
+
+----
+== HOW
+
+* Write some code
+* make a dist.ini
+  by hand or via 'dzil new Project::Name'
+  creates directory and dist.ini within directory.
+* dzil test
+
+----
+
+== EXAMPLE
+
+[andrew@mini]% dzil new test::project             
+will create new dist test-project in 
+obj(/home/andrew/config/slides/dist::zilla/test-project)
+$VAR1 = {};
+
+[andrew@mini]% ls                                
+slides.vroom  test-project
+
+----
+
+== Files:
+[andrew@mini]% cd test-project
+[andrew@mini]% ls
+dist.ini
+
+[andrew@mini]% cat dist.ini
+name    = test-project
+version = 1.000
+author  = andrew
+license = Perl_5
+copyright_holder = andrew
+
+[@Classic]
+
+----
+
+== Better settings
+
+dist.ini
+
+name    = test-project
+author  = agrangaard@rubiconproject.com
+license = Perl_5
+copyright_holder = andrew grangaard
+abstract = Test Project example of Dist::Zilla
+
+[@RJBS]
+
+----
+
+== @RJBS
+
+This is the plugin bundle that RJBS uses. It is equivalent to:
+
+  [@Filter]
+  bundle = @Classic
+  remove = PodVersion
+
+  [AutoVersion]
+  [MetaJSON]
+  [NextRelease]
+  [PodWeaver]
+  [Repository]
+
+----
+
+== Let's go play
+
+----
+
+== BUILD
+
+[andrew@mini]% mkdir lib t
+[andrew@mini]% dzil build
+
+----
+== BUNDLES
+
