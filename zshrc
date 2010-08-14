@@ -99,12 +99,16 @@ ssh() {
 PROMPT="[%n@%m]%# "
 RPROMPT="%? %~"
 
-#vi keybindings
+#vi keybindings + ctrl-r to search backward.
 bindkey -v
+bindkey "^r" history-incremental-search-backward
 
 #named directories.  Access as ~u, etc.
+s=$HOME/src
 
 #Functions & autoload
 #FPATH=$HOME/.zfunc
 #autoload function names here via:
 #autoload foo bar baz
+
+export SVN=http://nile:1984/svn/svnroot/
