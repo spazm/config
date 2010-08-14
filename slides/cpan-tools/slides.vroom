@@ -1,0 +1,103 @@
+# This is a sample Vroom input file. It should help you get started.
+#
+# Edit this file with your content. Then run `vroom --vroom` to start
+# the show!
+#
+# See `perldoc Vroom` for complete details.
+#
+---- config
+# Basic config options.
+title: CPAN Tools - la.pm.org 2010-06-30
+indent: 5
+height: 18
+width: 69
+skip: 0
+
+# The following options are for Gvim usage.
+# vim: gvim
+# gvimrc: |
+#   set fuopt=maxhorz,maxvert
+#   set guioptions=egmLtT
+#   set guifont=Bitstream_Vera_Sans_Mono:h18
+#   set guicursor=a:blinkon0-ver25-Cursor
+#   colorscheme default
+
+---- center
+CPAN Tools
+aka
+My module works for me, how do I fix these broken test reports?
+
+by Andrew Grangaard
+spazm@cpan
+
+
+LA.pm.org -- June 30, 2010
+
+----
+== CPAN tools
+
+* bug tracking with rt
+* CPANTS - comprensive perl archive network testing service
+* ratings
+* wiki / annoted pod
+* community
+
+----
+== THE PLAN
+
+* look at my broken module that "works for me", and try and decipher the cpants warnings
+
+----
+== My dog ate my homework
+(hi simba!)
+
+* I upgraded Dist::Zilla, my build tool.
+* didn't go so well
++* jumped from version major revision 2 to 4.
++* upgraded lots of dependencies by hand
+ * still giving issues, nuked my whole local::lib 
+ * problems within the module
+
+----
+== Let's fix it and send it back
+
+* check the cpan page
+* checkout the git repo
+* fix it
+* send in a patch
++* Let's find out how!  Mostly new to me, live in here!
+
+----
+== Cpan Page
+
+http://search.cpan.org/~rjbs/Dist-Zilla-4.101811/lib/Dist/Zilla.pm
+http://search.cpan.org/~rjbs/Dist-Zilla-4.101811/
+
+----
+== Git Page
+
+  repo:    http://github.com/rjbs/dist-zilla.git
+  webpage: http://github.com/rjbs/dist-zilla
+----
+
+== Git Clone
+
+  cd src/
+  git clone http://github.com/rjbs/dist-zilla.git
+
+----
+== Error Case
+
+ Steps to reproduce:
+ * new user without ~/.dzil/config
+ * creates empty ~/.dzil/config as warned
+ * tries to create real config with 'dzil setup'
+ * failure.
+
+----
+== Error Case testing
+
+sudo -s -u dziltest
+
+----
+== Fin
