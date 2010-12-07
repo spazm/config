@@ -41,14 +41,14 @@ fi
 
 #add toast directories
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$HOME/.toast/armed/lib
-PATH=${PATH:+$PATH:}$HOME/.toast/armed/bin:$HOME/.toast/armed/sbin:$HOME/mybin/:$HOME/bin/
+PATH=${PATH:+$PATH:}$HOME/.toast/armed/bin:$HOME/.toast/armed/sbin:$HOME/mybin/:$HOME/bin/:$HOME/open42/adblender/trunk/adblender/bin
 
 #Build ctags file, skipping .svn directories, from here down the tree.
 function ctagit ()
 {
 	ctags -f tags --recurse --totals \
         --exclude=blib --exclude=.svn    \
-        --exclue=.git  --exclude='*~'    \
+        --exclude=.git --exclude='*~'    \
         --languages=Perl --langmap=Perl:+.t
 }
 
@@ -111,4 +111,13 @@ s=$HOME/src
 #autoload function names here via:
 #autoload foo bar baz
 
-export SVN=http://nile:1984/svn/svnroot/
+#export SVN=http://nile:1984/svn/svnroot/
+export SVN=https://open42.svn.cvsdude.com/adblender/
+
+# export this for skype to function with my microphone.
+export PULSE_SERVER=127.0.0.1 
+
+#ibus? what is this?
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
