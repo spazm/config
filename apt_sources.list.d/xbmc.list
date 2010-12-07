@@ -1,0 +1,2 @@
+# deb http://ppa.launchpad.net/team-xbmc/ppa/ubuntu maverick main # disabled on upgrade to maverick
+# deb-src http://ppa.launchpad.net/team-xbmc/ppa/ubuntu maverick main # disabled on upgrade to maverick

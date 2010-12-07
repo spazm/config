@@ -1,0 +1,3 @@
+## Please report any bug on https://bugs.launchpad.net/medibuntu/
+# deb http://packages.medibuntu.org/ maverick free non-free #Medibuntu - lucid disabled on upgrade to maverick
+# deb-src http://packages.medibuntu.org/ karmic free non-free #Medibuntu (source) - Ubuntu 9.10 "karmic koala"

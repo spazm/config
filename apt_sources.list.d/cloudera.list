@@ -1,0 +1,5 @@
+# deb http://archive.cloudera.com/debian karmic-testing contrib
+# deb-src http://archive.cloudera.com/debian karmic-testing contrib
+#no packages for karmic yet, trying jaunty-testing, jaunty-stable, jaunty-cdh1 or jaunty-cdh2
+# deb http://archive.cloudera.com/debian lucid-cdh2 contrib # disabled on upgrade to maverick
+# deb-src http://archive.cloudera.com/debian lucid-cdh2 contrib # disabled on upgrade to maverick
