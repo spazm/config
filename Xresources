@@ -1,0 +1,63 @@
+! This is your .Xresources file.
+!
+! Many X programs allow customization via resources.  Resource values in this
+! file will be read in automatically at startup.
+!
+! Customize to taste.
+
+! xterm (shell window) colors and fonts
+
+xterm*font:			9x15
+xterm*boldFont:			8x13bold
+xterm*Background:	        black
+xterm*Foreground:	        wheat
+xterm*Highlight:		white
+xterm*faceName:                 envy
+xterm*faceSize:                 13
+
+! emacs (editor)
+
+emacs*Foreground:               white
+emacs*Background:		black
+emacs*Mouse:			yellow
+emacs*font:			9x15
+emacs*pointerColor:		green
+emacs*cursorColor:		white
+
+! xclock (clock)
+
+xclock*Background:  		black
+xclock*Foreground:  		red3
+xclock*Highlight:   		white
+xclock*Mode:	      		analog
+
+! xbiff (mail watcher)
+xbiff*Font:			9x15
+xbiff*NewMailReverse:		on
+xbiff*Background:		steelblue
+xbiff*Foreground:		black
+xbiff*checkCommand:      	"/usr/contrib/bin/mailstat.sh"
+xbiff*onceOnly:          	true
+
+! logout button
+
+xstring*Font:			*-lucidabright-demibold-r-*-*-25-*-*-*-*-*-*-*
+
+! xcb (X Cut buffer)
+Buffer*Font: 			-adobe-helvetica-bold-r-*-*-8-*-*-*-*-*-*-* 
+
+!zephyr stuff
+!zwgc*geometry:                  +100-0
+zwgc*minTimeToLive:             1500
+! zwgc*background:                steelblue
+! zwgc*foreground:                white
+zwgc*pointerColor:              gold
+zwgc*reverseVideo:              true
+!zwgc*ReverseStack:              true
+zwgc*style.ping.ping.*.geometry:         -0+0
+zwgc*style.mail.announce.*.geometry:     +0+0
+zwgc*style.message.personal.*.geometry:  +c+0 
+
+!hopefully this will setup coolmail appropriately.
+*Inbox:			"/usr/mail/granny"
+*mailCommand:		"/home/granny/contrib/$ARCH/exmh-2.0.2"
