@@ -216,6 +216,12 @@ set tags=./tags,~/sandbox/utils/branches/week47/tags,tags
 "colorscheme desert
 
 ""
+"" SQL::Beautify
+""
+autocmd Filetype sql :set equalprg=sql-beatufiy.pl
+command! -range SQLF :'<,'>!$HOME/bin/sql-beautify.pl
+
+""
 "" perl vim tips
 "" http://www.perlmonks.org/?node_id=540167
 ""
@@ -252,6 +258,19 @@ let perl_include_pod = 1
 " syntax color complex things like @{${"foo"}}
 let perl_extended_vars = 1
 
+" for something like $pack::var
+let perl_want_scope_in_variables = 1
+
+"folding
+let perl_fold=1  "fold perl subs and pod
+let perl_fold_blocks=1  "fold perl loops and blocks.
+"set foldlevel=99 "default to no folding
+
+"set foldmethod=indent "indent fold
+"set foldmethod=marker "fold on manual {{{  }}}
+"set foldmethod=syntax "fold based on syntax
+"set foldmethod=manual "manual folding
+
 " Tidy selected lines (or entire file) with ,t:
 "nnoremap <silent> ,t :%!perltidy -q<Enter>
 vnoremap <silent> ,t :!perltidy -q<Enter>
@@ -275,10 +294,6 @@ let g:ctags_title=0
 let g:generate_tags=1 
 let g:ctags_regenerate=1
 
-"folding
-let perl_fold=1  "fold perl subs and pod
-let perl_fold_blocks=1  "fold perl loops and blocks.
-set foldlevel=99 "default to no folding
 
 set exrc
 
