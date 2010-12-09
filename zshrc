@@ -41,7 +41,7 @@ fi
 
 #add toast directories
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$HOME/.toast/armed/lib
-PATH=${PATH:+$PATH:}$HOME/.toast/armed/bin:$HOME/.toast/armed/sbin:$HOME/mybin/:$HOME/bin/:$HOME/open42/adblender/trunk/adblender/bin
+PATH=${PATH:+$PATH:}$HOME/.toast/armed/bin:$HOME/.toast/armed/sbin:$HOME/mybin/:$HOME/bin/:$HOME/open42/adblender/trunk/adblender/bin:$HOME/trunk/adblender/bin
 
 #Build ctags file, skipping .svn directories, from here down the tree.
 function ctagit ()
@@ -49,11 +49,12 @@ function ctagit ()
 	ctags -f tags --recurse --totals \
         --exclude=blib --exclude=.svn    \
         --exclude=.git --exclude='*~'    \
+        --extra=q                        \
         --languages=Perl --langmap=Perl:+.t
 }
 
 export EDITOR=vim
-
+export ADB_HOME=$HOME/trunk/adblender
 
 xterm_title()
 {
@@ -105,6 +106,7 @@ bindkey "^r" history-incremental-search-backward
 
 #named directories.  Access as ~u, etc.
 s=$HOME/src
+o=$ADB_HOME
 
 #Functions & autoload
 #FPATH=$HOME/.zfunc

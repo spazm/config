@@ -209,7 +209,13 @@ map ,p   :set invpaste paste?
 "let g:ProjTags = [[ "~/sandbox/rubicon_ui/trunk", "~/sandbox/utils/branches/week47", "~/sandbox/utils/trunk/" ]]
 
 "set tags=./tags\ ~/sandbox/utils/branches/week47/tags
-set tags=./tags,~/sandbox/utils/branches/week47/tags,tags
+"set tags=./tags,~/sandbox/utils/branches/week47/tags,tags
+" tags controls the search list for tags files.
+" . is replaced with the path to the current file
+" ./tags            => tags file in same dir as current file
+" tags              => tags file in current directory
+" full/path/to/tags => tags file from specific location
+set tags=./tags,tags,~/trunk/adblender/tags,~/tags
 
 "color settings:
 " /usr/share/vim/vim70/colors/
@@ -262,8 +268,10 @@ let perl_extended_vars = 1
 let perl_want_scope_in_variables = 1
 
 "folding
-let perl_fold=1  "fold perl subs and pod
+let perl_fold=1         "fold perl subs and pod
 let perl_fold_blocks=1  "fold perl loops and blocks.
+":%foldopen!             "open all folds.
+set foldlevel=5 
 "set foldlevel=99 "default to no folding
 
 "set foldmethod=indent "indent fold
