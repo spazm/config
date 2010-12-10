@@ -76,6 +76,9 @@ set shiftwidth=4     " << >> is in units of 4.
 set smarttab         " enable smart tab
 set softtabstop=4    " delete in a line of spaces removes 4 chars.
 
+" Need literal tab characters in Makefiles.
+au BufRead,BufNewFile Makefile* set noexpandtab
+
 " Now we set some defaults for the editor
 set noautoindent     " always set autoindenting off
 set textwidth=0      " Don't wrap words by default
@@ -301,7 +304,6 @@ let g:ctags_statusline=1
 let g:ctags_title=0
 let g:generate_tags=1 
 let g:ctags_regenerate=1
-
 
 set exrc
 
