@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>007z</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+function navigate(e) {
+    var keynum = (window.event) // IE
+        ? e.keyCode
+        : e.which;
+    if (keynum == 8) {
+        window.location = "007" + ".html";
+        return false;
+    }
+    if (keynum == 13 || keynum == 32) {
+        window.location = "008" + ".html";
+        return false;
+    }
+    if (keynum == 73 || keynum == 105) {
+        window.location = "index.html";
+        return false;
+    }
+    return true;
+}
+</script>
+</head>
+<body onkeypress="return navigate(event)">
+<pre>
+
+
+                          Hadoop Streaming
+                             Advantages
+     * easy
+     * great for rapid prototyping
+     * testing of apps outside of framework
+     
+                            Disadvantages
+     * can't use sequence files
+     * still have java overhead, but not fully integrated into the java stack.
+     * lots of boilerplate code to deal with STDIN/STDOUT format.
+
+
+
+
+
+</pre>
+</body>

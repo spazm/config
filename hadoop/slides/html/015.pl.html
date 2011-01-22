@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>015.pl</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+function navigate(e) {
+    var keynum = (window.event) // IE
+        ? e.keyCode
+        : e.which;
+    if (keynum == 8) {
+        window.location = "014" + ".html";
+        return false;
+    }
+    if (keynum == 13 || keynum == 32) {
+        window.location = "016.pl" + ".html";
+        return false;
+    }
+    if (keynum == 73 || keynum == 105) {
+        window.location = "index.html";
+        return false;
+    }
+    return true;
+}
+</script>
+</head>
+<body onkeypress="return navigate(event)">
+<pre>    =pod
+    NAME
+       Hadoop::Streaming::Mapper - Simplify writing Hadoop Streaming jobs.
+       Write a map() and reduce() function and let this role handle the Stream
+       interface.
+    
+    VERSION
+       version 0.100270
+    
+    SYNOPSIS
+    =cut
+    
+         #!/usr/bin/env perl
+    
+         package Wordcount::Mapper;
+         use Moose;
+         with 'Hadoop::Streaming::Mapper';
+    
+         sub map {
+             my ($self, $line) = @_;
+    
+             for (split /\s+/, $line) {
+                 $self-&gt;emit( $_ =&gt; 1 );
+             }
+         }
+    
+         package main;
+         Wordcount::Mapper-&gt;run;
+</pre>
+</body>

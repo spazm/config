@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>016.pl</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+function navigate(e) {
+    var keynum = (window.event) // IE
+        ? e.keyCode
+        : e.which;
+    if (keynum == 8) {
+        window.location = "015.pl" + ".html";
+        return false;
+    }
+    if (keynum == 13 || keynum == 32) {
+        window.location = "017" + ".html";
+        return false;
+    }
+    if (keynum == 73 || keynum == 105) {
+        window.location = "index.html";
+        return false;
+    }
+    return true;
+}
+</script>
+</head>
+<body onkeypress="return navigate(event)">
+<pre>    =pod
+    
+    NAME
+       Hadoop::Streaming::Reducer - Simplify writing Hadoop Streaming jobs.
+       Write a map() and reduce() function and let this role handle the Stream
+       interface.  The Reducer roll provides an iterator over the multiple
+       values for a given key.
+    
+    VERSION
+       version 0.100270
+    
+    SYNOPSIS
+    =cut
+           #!/usr/bin/env perl
+    
+           package WordCount::Reducer;
+           use Moose;
+           with qw/Hadoop::Streaming::Reducer/;
+    
+           sub reduce {
+               my ($self, $key, $values) = @_;
+    
+               my $count = 0;
+               while ( $values-&gt;has_next ) {
+                   $count++;
+                   $values-&gt;next;
+               }
+    
+               $self-&gt;emit( $key =&gt; $count );
+           }
+    
+           package main;
+           WordCount::Reducer-&gt;run;
+</pre>
+</body>

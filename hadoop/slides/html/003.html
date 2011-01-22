@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>003</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+function navigate(e) {
+    var keynum = (window.event) // IE
+        ? e.keyCode
+        : e.which;
+    if (keynum == 8) {
+        window.location = "002" + ".html";
+        return false;
+    }
+    if (keynum == 13 || keynum == 32) {
+        window.location = "004" + ".html";
+        return false;
+    }
+    if (keynum == 73 || keynum == 105) {
+        window.location = "index.html";
+        return false;
+    }
+    return true;
+}
+</script>
+</head>
+<body onkeypress="return navigate(event)">
+<pre>
+
+                             Why Hadoop?
+     
+     * Great for calculating functions where a given output only depends on a small subset of input.
+     * Excels on large jobs that can be split across input.
+     
+     Examples:
+     * word count in a collection of files
+     * needle in a haystack
+     * log parsing / conversion / mining
+     * distributed choice algorithms
+     * querying multiple datastores and collecting the output.
+
+
+
+
+
+</pre>
+</body>

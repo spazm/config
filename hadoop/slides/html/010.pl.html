@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>010.pl</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+function navigate(e) {
+    var keynum = (window.event) // IE
+        ? e.keyCode
+        : e.which;
+    if (keynum == 8) {
+        window.location = "009.pl" + ".html";
+        return false;
+    }
+    if (keynum == 13 || keynum == 32) {
+        window.location = "011" + ".html";
+        return false;
+    }
+    if (keynum == 73 || keynum == 105) {
+        window.location = "index.html";
+        return false;
+    }
+    return true;
+}
+</script>
+</head>
+<body onkeypress="return navigate(event)">
+<pre>    #!/usr/bin/perl
+    
+    use strict;
+    use warnings;
+    
+    =pod
+    input: (tab sep)
+      Thomson 1
+      Thomson 1
+      TR      1
+    
+    output: (tab sep)
+      Thomson 2
+      TR      1
+    =cut
+    
+    my $count        = 0;
+    my $previous_key = '';
+    while ( my $line = &lt;&gt; )
+    {
+        chomp $line;
+        my ( $key, $value ) = split( /\t/, $line );
+        if ( $key eq $previous_key )
+        {
+            $count += $value;
+        }
+        else
+        {
+            print &quot;$previous_key\t\$count\n&quot;;
+            $previos_key = $key;
+            $count       = $value;
+        }
+    }
+    
+    #print final key last
+    print &quot;$previous_key\t\$count\n&quot;;
+</pre>
+</body>

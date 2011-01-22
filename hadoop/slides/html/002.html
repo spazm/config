@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>002</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+function navigate(e) {
+    var keynum = (window.event) // IE
+        ? e.keyCode
+        : e.which;
+    if (keynum == 8) {
+        window.location = "001" + ".html";
+        return false;
+    }
+    if (keynum == 13 || keynum == 32) {
+        window.location = "003" + ".html";
+        return false;
+    }
+    if (keynum == 73 || keynum == 105) {
+        window.location = "index.html";
+        return false;
+    }
+    return true;
+}
+</script>
+</head>
+<body onkeypress="return navigate(event)">
+<pre>                           What is Hadoop?
+     
+     Hadoop is a Map/Reduce framework with a distributed filesystem.
+     
+     * Map/Reduce is an instance of a divide and conquer algorithm.  
+     * The input is apportioned to map jobs.  
+     * The output is collected and sorted and given to the map job.
+     * distributed files system provides redundancy and file+job locality
+     * Not an acronym.
+     
+     
+     Hadoop is now part of the apache foundation.
+     
+     More Info:
+     * http://hadoop.apache.org
+
+
+
+</pre>
+</body>
