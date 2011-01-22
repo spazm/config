@@ -1,0 +1,11 @@
+[color]
+        branch = always
+        status = always
+        diff = auto
+[color "diff"]
+        whitespace = red reverse
+[core]
+        editor = /usr/bin/env vim
+        pager = less -FRSX
+[merge]
+        tool = vimdiff
