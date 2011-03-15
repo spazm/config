@@ -3,7 +3,7 @@
 	email = granny-github@ofb.net
 [color]
         branch = always
-        status = always
+        status = auto
         diff = auto
 [color "diff"]
         whitespace = red reverse
