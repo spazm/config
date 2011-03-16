@@ -11,7 +11,8 @@ compinit
 setopt COMPLETE_IN_WORD
 
 ## keep background processes at full speed
-#setopt NOBGNICE
+setopt NOBGNICE
+
 ## restart running processes on exit
 #setopt HUP
 
@@ -34,16 +35,46 @@ MAILCHECK=0
 # autoload -U colors
 #colors
 
+#set the prompt and right prompt.
+PROMPT="[%n@%m]%# "
+RPROMPT="%? %~"
+
+#vi keybindings + ctrl-r to search backward.
+bindkey -v
+bindkey "^r" history-incremental-search-backward
+
+export EDITOR=vim
+
+###
+# local::lib config
+#
 
 if [ -d /apps/perl5 ]; then
     eval $( perl -Mlocal::lib=/apps/perl5 )
 fi
+if [ -d $HOME/perl5 ]; then
+    eval $( perl -Mlocal::lib )
+fi
+#
+###
 
+###
 #add toast directories
+#
+
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$HOME/.toast/armed/lib
 PATH=${PATH:+$PATH:}$HOME/.toast/armed/bin:$HOME/.toast/armed/sbin:$HOME/mybin/:$HOME/bin/:$HOME/open42/adblender/trunk/adblender/bin:$HOME/trunk/adblender/bin
 
-#Build ctags file, skipping .svn directories, from here down the tree.
+#
+###
+
+###
+# begin function definitions
+#
+
+#
+# Build ctags file, skipping .svn directories, from here down the tree.
+#
 function ctagit ()
 {
 	ctags -f tags --recurse --totals \
@@ -53,8 +84,12 @@ function ctagit ()
         --languages=Perl --langmap=Perl:+.t
 }
 
-export EDITOR=vim
-export ADB_HOME=$HOME/trunk/adblender
+# end functions
+###
+
+###
+# begin: Xterm and Screen title update
+#
 
 xterm_title()
 {
@@ -66,14 +101,14 @@ screen_title()
     xterm_title "$@"
 }
 
-case $TERM in 
-    screen|screen-w) 
-        alias titlecmd="screen_title" 
+case $TERM in
+    screen|screen-w)
+        alias titlecmd="screen_title"
     ;;
-    xterm) 
+    xterm)
         alias titlecmd="xterm_title"
     ;;
-    *) 
+    *)
         alias titlecmd=":"
     ;;
 esac
@@ -88,36 +123,24 @@ function precmd () {
     titlecmd "%m %4~"
 }
 
-
 ssh() {
     titlecmd "$1";
-    command ssh $*; 
+    command ssh $*;
     titlecmd "$HOSTNAME";
 }
 
-
-#set the prompt and right prompt.
-PROMPT="[%n@%m]%# "
-RPROMPT="%? %~"
-
-#vi keybindings + ctrl-r to search backward.
-bindkey -v
-bindkey "^r" history-incremental-search-backward
-
-#named directories.  Access as ~u, etc.
-s=$HOME/src
-o=$ADB_HOME
+#
+# end: Xterm and Screen title update
+###
 
 #Functions & autoload
 #FPATH=$HOME/.zfunc
 #autoload function names here via:
 #autoload foo bar baz
 
-#export SVN=http://nile:1984/svn/svnroot/
-export SVN=https://open42.svn.cvsdude.com/adblender/
 
 # export this for skype to function with my microphone.
-export PULSE_SERVER=127.0.0.1 
+export PULSE_SERVER=127.0.0.1
 
 #ibus? what is this?
 export GTK_IM_MODULE=ibus
@@ -128,3 +151,25 @@ export QT_IM_MODULE=ibus
 if [ -f /sw/bin/init.sh ]; then
     source /sw/bin/init.sh
 fi
+
+###
+# Open 42 Configuration
+#
+
+export SVN=https://open42.svn.cvsdude.com/svnroot/
+export ADB_HOME=$HOME/src/adblender/trunk/adblender
+
+#named directories.  Access as ~u, etc.
+s=$HOME/src
+o=$ADB_HOME
+
+###
+# EC2 configuration for AWS/IAM keys
+# https://sites.google.com/a/open42.com/moma/engineering/aws-credentials-iam?pli=1
+#
+export EC2_PRIVATE_KEY=~/.aws/private-key.pem
+export EC2_CERT=~/.aws/cert.pem
+export EC2_URL='https://ec2.us-west-1.amazonaws.com'
+
+#
+###
