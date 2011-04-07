@@ -1,6 +1,6 @@
-escape `~
+escape  `~
 nethack on
-vbell on
+vbell   on
 
 #kill startup message
 startup_message off
@@ -9,7 +9,21 @@ startup_message off
 defscrollback 2048
 
 hardstatus on
-#hardstatus alwayslastline "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a "
 
-hardstatus alwayslastline "%{-b gk}%-w%{+b kg}%50>%n %t%{-b gk}%+w%<"
+#normal:
+#no status
+#hardstatus alwayslastline "%{-b gk}%-w%{+b kg}%50>%n %t%{-b gk}%+w%<"
+
+# left status.
+#(red)hostname (green)hh:mm (yellow)MMdd (white)
 #hardstatus alwayslastline "%{rk}%H %{gk}%c %{yk}%M%d %{wk}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{wk}%?%+Lw%?"
+
+# left status.
+#(red)hostname (green)hh:mm:ss (yellow)MMdd (white)
+#hardstatus alwayslastline "%{rk}%H %{gk}%c:%s %{yk}%M%d %{wk}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{wk}%?%+Lw%?"
+
+# right status
+# white on blue.
+# red highlight
+# hostname MM/dd hh:mm am/pm
+hardstatus alwayslastline "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a "
