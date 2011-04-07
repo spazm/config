@@ -123,3 +123,8 @@ export PULSE_SERVER=127.0.0.1
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
+
+# fink setup for macosx
+if [ -f /sw/bin/init.sh ]; then
+    source /sw/bin/init.sh
+fi
