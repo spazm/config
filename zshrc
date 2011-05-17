@@ -102,10 +102,10 @@ screen_title()
 }
 
 case $TERM in
-    screen|screen-w)
+    screen|screen-w|screen-256color|screen-256color-bce)
         alias titlecmd="screen_title"
     ;;
-    xterm)
+    xterm|xterm-256color)
         alias titlecmd="xterm_title"
     ;;
     *)
@@ -170,6 +170,11 @@ o=$ADB_HOME
 export EC2_PRIVATE_KEY=~/.aws/private-key.pem
 export EC2_CERT=~/.aws/cert.pem
 export EC2_URL='https://ec2.us-west-1.amazonaws.com'
+
+export AWS_CREDENTIAL_FILE=~/.aws/$USER-credential-file
+export AWS_IAM_HOME=~/contrib/IAMCli-1.2.0
+export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
+export PATH=$PATH:$AWS_IAM_HOME/bin
 
 #
 ###
