@@ -12,3 +12,5 @@
         pager = less -FRSX
 [merge]
         tool = vimdiff
+[alias]
+	vimdiff = difftool -y -t vimdiff -R
