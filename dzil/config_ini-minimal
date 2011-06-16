@@ -1,0 +1,8 @@
+[%User]
+name  = Andrew Grangaard
+email = spazm@cpan.org
+
+[%Rights]
+license_class    = Perl_5
+copyright_holder = Andrew Grangaard
+
