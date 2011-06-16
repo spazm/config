@@ -1,0 +1,45 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use Data::Dumper;
+
+=head1 SYNOPSIS
+
+% get_git_branch
+
+=head1 ABOUT
+
+get_git_branch parses the output of git-branch and returns the branch marked as current.  The marking asterisk '*' is removed from the name.
+
+=head1 USAGE
+
+get_git_branch returns the current branch name, followed by a newline.  
+
+A git branch name of '-' is returned if no branch is defined or cwd is not within a git directory.
+
+If run outside of a git directory, an error message will appear on stderr
+ fatal: Not a git repository (or any of the parent directories): .git
+
+=head1 WARNING
+
+get_git_branch parses the output of git-branch
+
+The output of git-branch should not be parsed in scripts.  An appropriate porcelain function should be used instead.
+
+What is the proper porcelain alternative?
+
+=cut
+
+sub get_git_branch
+{
+    open my $fh, 'git branch --no-color|';
+    my $branch = '-';
+    while (<$fh>)
+    {
+        $branch = $1 if m/^ \s* \* \s+ ( .* )/mx
+    }
+    return $branch;
+}
+
+print get_git_branch() , "\n" ;
