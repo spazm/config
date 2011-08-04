@@ -1,0 +1,22 @@
+
+"Vimball" [Not edited] --No lines in buffer--
+".VimballRecord" 2L, 487C
+E486: Pattern not found: ^\s*$
+".VimballRecord" 2L, 487C written
+Vimball Archive
+extracted <plugin/ctags_highlighting.vim>: 467 lines
+"~/.vim/plugin/ctags_highlighting.vim" [New] 467L, 14655C written
+wrote /Users/andrew/.vim/plugin/ctags_highlighting.vim
+extracted <mktypes.py>: 883 lines
+"~/.vim/mktypes.py" [New] 883L, 24143C written
+wrote /Users/andrew/.vim/mktypes.py
+extracted <extra_source/mktypes/setup.py>: 5 lines
+"~/.vim/extra_source/mktypes/setup.py" [New] 5L, 165C written
+wrote /Users/andrew/.vim/extra_source/mktypes/setup.py
+extracted <doc/ctags_highlighting.txt>: 472 lines
+"~/.vim/doc/ctags_highlighting.txt" [New] 472L, 19506C written
+wrote /Users/andrew/.vim/doc/ctags_highlighting.txt
+did helptags
+".VimballRecord" 2L, 487C
+E486: Pattern not found: ^\s*$
+".VimballRecord" 3L, 745C written
