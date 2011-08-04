@@ -1,2 +1,4 @@
 Align.vba: call delete('/home/agrangaard/.vim/plugin/AlignPlugin.vim')|call delete('/home/agrangaard/.vim/plugin/AlignMaps.vim')|call delete('/home/agrangaard/.vim/plugin/cecutil.vim')|call delete('/home/agrangaard/.vim/doc/Align.txt')|call delete('/home/agrangaard/.vim/autoload/Align.vim')
 omniperl.vba: call delete('/home/agrangaard/.vim/ftplugin/perl/omniperl.pl')|call delete('/home/agrangaard/.vim/ftplugin/perl/omniperl.vim')|call delete('/home/agrangaard/.vim/doc/omniperl.txt')
+ctags_highlighting.vba: call delete('/Users/andrew/.vim/plugin/ctags_highlighting.vim')|call delete('/Users/andrew/.vim/mktypes.py')|call delete('/Users/andrew/.vim/extra_source/mktypes/setup.py')|call delete('/Users/andrew/.vim/doc/ctags_highlighting.txt')
+colourscheme_bandit.vba: call delete('/Users/andrew/.vim/colors/bandit.vim')|call delete('/Users/andrew/.vim/syntax/colours_bandit.vim')|call delete('/Users/andrew/.vim/ftplugin/colours_bandit.vim')

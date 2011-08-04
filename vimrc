@@ -1,4 +1,3 @@
-set bg=dark
 
 "problem with arrow keys not working under screen.
 "this is a temp fix, I hope.  2008-10-23.
@@ -304,6 +303,15 @@ let g:ctags_statusline=1
 let g:ctags_title=0
 let g:generate_tags=1 
 let g:ctags_regenerate=1
+
+let g:zenburn_high_Contrast=1
+let g:zenburn_alternate_Visual=1
+let g:zenburn_old_Visual=1
+set t_Co=256
+
+set bg=dark
+colors zenburn
+
 
 set exrc
 
