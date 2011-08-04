@@ -52,7 +52,7 @@ if ( defined $line_numbers )
     push @default_args, ( $flag );
 }
 
-my $ps2pdf = 'ps2pdf';
+my $ps2pdf = 'pstopdf';
 
 foreach my $file (@ARGV)
 {
@@ -64,9 +64,11 @@ foreach my $file (@ARGV)
     print "$input_file -> $output_file\n";
     push @args, qw( --color -Eperl ) if $input_file =~ m/\.p[lm]$/i;
     push @args, qw( --color -Eperl ) if $input_file =~ m/\.t$/i;
+    #push @args, qw( --color -Ec )  if $input_file =~ m/\.php$/i;
+    push @args, qw( --color -Ephp )  if $input_file =~ m/\.php$/i;
     push @args, ( "--title",  $file );
     my $command
-        = "$enscript @args '$input_file' -p - | $ps2pdf - '$output_file'";
+        = "$enscript @args '$input_file' -p - | $ps2pdf -i -o '$output_file'";
     print "$command\n" if $verbose;
     system $command unless $dry_run;
 }
