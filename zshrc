@@ -197,3 +197,5 @@ export PATH=$PATH:$AWS_IAM_HOME/bin
 
 #
 ###
+
+alias h=history
