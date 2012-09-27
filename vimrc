@@ -13,8 +13,8 @@
 " bind \j and \s to run a [I to show other locations of the current identifier
 " and with \j follow by the number desired or \s to provide a prompt.
 " looks in all open files?
-" Press [I to display all lines that contain the keyword under the cursor. Lines from the current file, and from included files, 
-" are listed. Another command (see the references below) allows you to jump to one of the displayed occurrences. 
+" Press [I to display all lines that contain the keyword under the cursor. Lines from the current file, and from included files,
+" are listed. Another command (see the references below) allows you to jump to one of the displayed occurrences.
 
 " List occurrences of keyword under cursor, and
 " jump to selected occurrence.
@@ -70,7 +70,7 @@ set backspace=2      " allow backspacing over everything in insert mode
 "http://vim.wikia.com/wiki/Indenting_source_code
 "set ts=4            " display tabs as 4
 set expandtab        " typed tabs become spaces (CTRL-V TAB to type a literal tab)
-set shiftwidth=4     " << >> is in units of 4.  
+set shiftwidth=4     " << >> is in units of 4.
                      " With smart tab, tab at start-of-line is this size also
 set smarttab         " enable smart tab
 set softtabstop=4    " delete in a line of spaces removes 4 chars.
@@ -184,7 +184,7 @@ let g:miniBufExplModSelTarget       = 1
 
 " do syntax highlighting on the whole file, not just the chunk I'm viewing.
 " this helps to fix the problem where it confused on long comments
-autocmd BufEnter * :syntax sync fromstart 
+autocmd BufEnter * :syntax sync fromstart
 
 " jtr 2004-05-26
 " set inv<option> inverts an option.  This toggles between paste and nopaste and prints the status
@@ -193,21 +193,21 @@ map ,p   :set invpaste paste?
 "MANY ALIGNMENT MAPS
 " http://vim.sourceforge.net/scripts/script.php?script_id=294
 " Align
-" AlignMaps.vim provides a number of maps which make using this package easy.  
-" They typically either apply to the range 'a,. (from mark a to current line) or use 
+" AlignMaps.vim provides a number of maps which make using this package easy.
+" They typically either apply to the range 'a,. (from mark a to current line) or use
 " the visual-selection (V, v, or ctrl-v selected):
 " \t=  : align assignments (don't count logic, like == or !=)
 " \t,  : align on commas
 " \t|  : align on vertical bars (|)
 " \tsp : align on whitespace
-" \tt  : align LaTeX tabular tables 
+" \tt  : align LaTeX tabular tables
 
 """ http://www.vim.org/scripts/script.php?script_id=1873
 """ projtags.vim : set tags file for per project
 "Examples:
-"let g:ProjTags = [ "~/work/proj1" ] 
+"let g:ProjTags = [ "~/work/proj1" ]
 "let g:ProjTags += [[ "~/work/proj2", "~/work/proj2/tags",
-"~/work/common.tags" ]] 
+"~/work/common.tags" ]]
 "let g:ProjTags = [[ "~/sandbox/rubicon_ui/trunk", "~/sandbox/utils/branches/week47", "~/sandbox/utils/trunk/" ]]
 
 "set tags=./tags\ ~/sandbox/utils/branches/week47/tags
@@ -273,7 +273,7 @@ let perl_want_scope_in_variables = 1
 let perl_fold=1         "fold perl subs and pod
 let perl_fold_blocks=1  "fold perl loops and blocks.
 ":%foldopen!             "open all folds.
-set foldlevel=5 
+set foldlevel=5
 "set foldlevel=99 "default to no folding
 
 "set foldmethod=indent "indent fold
@@ -301,7 +301,7 @@ set dictionary+=/usr/share/dict/words
 
 let g:ctags_statusline=1
 let g:ctags_title=0
-let g:generate_tags=1 
+let g:generate_tags=1
 let g:ctags_regenerate=1
 
 let g:zenburn_high_Contrast=1
@@ -315,5 +315,42 @@ colors zenburn
 
 set exrc
 
-"enable the ftplugin directories to get loaded
-filetype plugin on
+"enable the ftplugin and indent directories to get loaded
+filetype plugin indent on
+
+" http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+" highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
+" autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+" " Show trailing whitepace and spaces before a tab and tabs that are not at
+" the start of a line:
+" match ExtraWhitespace /\s\+$\| \+\ze\t\|[^\t]\zs\t\+/
+":highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+":au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+":au InsertLeave * match ExtraWhitespace /\s\+$/
+
+highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+" hightlight trailing spaces and all tabs.
+autocmd BufWinEnter * match ExtraWhitespace /\t\+\|\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\t\+\|\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$\|\t\+/
+autocmd BufWinLeave * call clearmatches()
+
+" show trailing spaces.  Don't show end-of-line $ marker
+" list trailing spaces as "."  show tabs as ">       "
+set list listchars=tab:>\ ,trail:.,extends:>
+
+"http://geekblog.oneandoneis2.org/index.php/2012/02/15/cuz-multiple-steps-into-one-is-cool
+" Get the commit responsible for the current line
+nmap <f4> :call BlameCurrentLine()<cr>
+" Get the current line number & file name, view the git commit that inserted it
+fun! BlameCurrentLine()
+let lnum = line(".")
+let file = @%
+exec "!gitBlameFromLineNo " lnum file
+endfun
+
+" map to run pep8
+let g:pep8_map='<leader>8'
+
+" set clipboard to use the + register -- the X clipboard
+set clipboard=unnamedplus

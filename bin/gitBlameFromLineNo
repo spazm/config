@@ -1,0 +1,23 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use v5.10;
+
+my $debug = 0;
+
+my ($line_no,$file_name)=@ARGV;
+say "Line: $line_no | File: $file_name" if $debug;
+
+# Get the git blame for the line & file
+my $line = `git blame -L $line_no,$line_no $file_name`;
+say "Line: $line" if $debug;
+
+# Reduce this just to the SHA
+chomp $line;
+(my $sha = $line) =~ s/^(\S+).*/$1/;
+say "SHA: $sha" if $debug;
+
+# Show the commit for that SHA
+system("git show $sha");
