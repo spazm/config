@@ -17,11 +17,17 @@ setopt NOBGNICE
 #setopt HUP
 
 ## history
-#setopt APPEND_HISTORY
+# History configuration
+HISTFILE=$HOME/.zhistory       # enable history saving on shell exit
+setopt APPEND_HISTORY          # append rather than overwrite history file.
+HISTSIZE=1200                  # lines of history to maintain memory
+SAVEHIST=1000                  # lines of history to maintain in history file.
+setopt HIST_EXPIRE_DUPS_FIRST  # allow dups, but expire old ones when I hit HISTSIZE
+setopt EXTENDED_HISTORY        # save timestamp and runtime information
 
 ## for sharing history between zsh processes
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
+#setopt INC_APPEND_HISTORY
+#setopt SHARE_HISTORY
 
 ## never ever beep ever
 setopt NO_BEEP
@@ -49,8 +55,11 @@ zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
 
 #set the prompt and right prompt.
 setopt PROMPT_SUBST  #enable $variable expansion in prompt.
-PROMPT="[%n@%m]%# "
-RPROMPT='%? ${vcs_info_msg_0_}%~'
+PROMPT="[%n@%m] %h%# "
+#RPROMPT='%? ${vcs_info_msg_0_}%~'
+# Right prompt with green/red smiley/frowny
+RPROMPT='%(?,%F{green}:%),%F{yellow}%? %F{red}:()%f ${vcs_info_msg_0_}%~'
+
 
 #note, vcs_info is also added to precmd
 
@@ -95,11 +104,11 @@ PATH=${PATH:+$PATH:}$HOME/.toast/armed/bin:$HOME/.toast/armed/sbin:$HOME/mybin/:
 #
 function ctagit ()
 {
-	ctags -f tags --recurse --totals \
+        ctags -f tags --recurse --totals \
         --exclude=blib --exclude=.svn    \
         --exclude=.git --exclude='*~'    \
         --extra=q                        \
-        --languages=Perl --langmap=Perl:+.t
+        --languages=Perl,Python --langmap=Perl:+.t
 }
 
 # end functions
@@ -171,16 +180,12 @@ if [ -f /sw/bin/init.sh ]; then
     source /sw/bin/init.sh
 fi
 
-###
-# Open 42 Configuration
-#
-
-export SVN=https://open42.svn.cvsdude.com/svnroot/
-export ADB_HOME=$HOME/src/adblender/trunk/adblender
 
 #named directories.  Access as ~u, etc.
 s=$HOME/src
-o=$ADB_HOME
+h=$HOME/src/herbie
+setopt AUTO_CD
+setopt CDABLE_VARS
 
 ###
 # EC2 configuration for AWS/IAM keys
