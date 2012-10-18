@@ -16,6 +16,10 @@ term "screen-256color"
 attrcolor b ".I"
 defbce "on"     #clear with current background color rather than default background color
 
+# read and write screen clipboard to X clipboard.
+bind > eval writebuf "exec sh -c 'xsel -nbi </tmp/screen-exchange'"
+bind < eval "exec sh -c 'xsel -bo >/tmp/screen-exchange'" readbuf
+
 #### 
 #
 # Hard Status 
