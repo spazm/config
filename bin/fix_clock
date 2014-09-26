@@ -1,0 +1,5 @@
+#!/bin/sh
+
+sudo date
+sudo ntpdate 0.debian.pool.ntp.org
+date
