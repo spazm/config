@@ -19,7 +19,7 @@ my $result = GetOptions(
     "relative-directory|rdir=s" => \$relative_dir,
     "dry-run|n"                 => \$dry_run,
     "verbose|v"                 => \$verbose,
-    "line_numbers|C:i"          => \$line_numbers,
+    "line-numbers|C:i"          => \$line_numbers,
 
     "version" => \$version,
     "help"    => \$help,
@@ -41,7 +41,7 @@ system( 'mkdir', '-p', $output_dir);
 #enscript -MLetter sched.pl -Gr2 -p sched.ps
 
 my $enscript = 'enscript';
-my @default_args = qw( -MLetter -Gr2);
+my @default_args = qw( -MLetter -Gr2 -T4);
 if ( defined $line_numbers )
 {
     my $flag
@@ -59,12 +59,17 @@ foreach my $file (@ARGV)
     my $output_file = my $input_file = $file;
     my @args = @default_args;
     #$output_file =~ s/(.*)\..*?$/$1/;
+    $output_file =~ s{/}{_}g;
     $output_file .= ".pdf";
     $output_file = $output_dir . $output_file;
     print "$input_file -> $output_file\n";
     push @args, qw( --color -Eperl ) if $input_file =~ m/\.p[lm]$/i;
     push @args, qw( --color -Eperl ) if $input_file =~ m/\.t$/i;
+    push @args, qw( --color -Ephp ) if $input_file =~ m/\.php$/i;
     push @args, qw( --color -Epython ) if $input_file =~ m/\.py$/i;
+    push @args, qw( --color -Eruby ) if $input_file =~ m/\.rb$/i;
+    push @args, qw( --color -Ejavascript ) if $input_file =~ m/\.js(on)?$/i;
+    push @args, qw( --color -Emakefile ) if $input_file =~ m/^makefile/i;
     push @args, ( "--title",  $file );
     my $command
         = "$enscript @args '$input_file' -p - | $ps2pdf - '$output_file'";
@@ -89,6 +94,7 @@ code_to_pdf <options> [file]
  Options:
    --directory=<dir>            absolute path to output dir
    --relative_directory=<dir>   relative path from output dir.
+   --line-numbers=[first]       add line numbers, optionally starting from first
 
  Flags:
    --dry-run         show the command but do not execute.
