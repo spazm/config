@@ -1,0 +1,70 @@
+#!/usr/bin/env perl
+
+use warnings;
+use strict;
+
+use File::Spec;
+use File::Path qw(make_path);
+use Data::Dumper;
+use autodie;
+
+sub run
+{
+    my ( $author, $project, $url ) = parse_project(@ARGV);
+
+    my $basedir = File::Spec->join( $ENV{HOME}, "src", "github" );
+
+    my $author_dir = File::Spec->join( $basedir, $author, undef );
+    my $project_dir = File::Spec->join( $basedir, $author, $project, undef );
+
+    die "project already exists at $project_dir"   if -d $project_dir;
+    die "something already exists at $project_dir" if -e $project_dir;
+
+    make_path( $author_dir, { verbose => 1 } ) unless -d $project_dir;
+    print Dumper { url => $url, author => $author, project => $project };
+    exec( "git", "clone", $url, $project_dir );
+}
+
+sub parse_project
+{
+    my @args = @_;
+    my ( $author, $project, $url ) = ( 'spazm', undef, undef );
+    if ( $#args == 1 )
+    {
+        ( $author, $project ) = @args;
+        $url = "https://github.com/$author/$project.git";
+    }
+    elsif ( $#args == 0 )
+    {
+        my $input = $args[0];
+        if ( $input =~ m,^http://(?:.*\.)github.com/(.*?)/(.*?)(.git)$, )
+        {
+            $author  = $1;
+            $project = $2;
+            $url     = $input;
+        }
+        elsif ( $input =~ m,git\@github.com:(.*?)/(.*?)(.git)$, )
+        {
+            $author  = $1;
+            $project = $2;
+            $url     = $input;
+        }
+        elsif ( $input =~ m/:/ )
+        {
+            die "unknown url scheme";
+        }
+        else
+        {
+            $project = $input;
+            $url     = "git\@github.com:$author/$project";
+        }
+    }
+    else
+    {
+        die "unknown number of args";
+    }
+    return ( $author, $project, $url );
+}
+
+__PACKAGE__->run(@ARGV) unless caller;
+
