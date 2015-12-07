@@ -10,7 +10,13 @@
 [core]
     editor = /usr/bin/env vim
     pager = less -FRSX
+    whitespace = tab-in-indent
+    excludesfile = /opt/boxen/config/git/gitignore
+[credential]
+    helper = /opt/boxen/bin/boxen-git-credential
 [merge]
     tool = vimdiff
 [alias]
     vimdiff = difftool -y -t vimdiff -R
+[hub]
+    protocol = https
