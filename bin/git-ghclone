@@ -37,13 +37,13 @@ sub parse_project
     elsif ( $#args == 0 )
     {
         my $input = $args[0];
-        if ( $input =~ m,^http://(?:.*\.)github.com/(.*?)/(.*?)(.git)$, )
+        if ( $input =~ m,^https?://(?:.*\.)?github.com/(.*?)/(.*?)(.git)?$, )
         {
             $author  = $1;
             $project = $2;
             $url     = $input;
         }
-        elsif ( $input =~ m,git\@github.com:(.*?)/(.*?)(.git)$, )
+        elsif ( $input =~ m,git\@github.com:(.*?)/(.*?)(.git)?$, )
         {
             $author  = $1;
             $project = $2;
