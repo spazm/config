@@ -1,16 +1,16 @@
 [user]
-	name = Andrew Grangaard
-	email = granny-github@ofb.net
+    name = Andrew Grangaard
+    email = granny-github@ofb.net
 [color]
-        branch = always
-        status = auto
-        diff = auto
+    branch = always
+    status = auto
+    diff = auto
 [color "diff"]
-        whitespace = red reverse
+    whitespace = red reverse
 [core]
-        editor = /usr/bin/env vim
-        pager = less -FRSX
+    editor = /usr/bin/env vim
+    pager = less -FRSX
 [merge]
-        tool = vimdiff
+    tool = vimdiff
 [alias]
-	vimdiff = difftool -y -t vimdiff -R
+    vimdiff = difftool -y -t vimdiff -R
