@@ -1,0 +1,38 @@
+#!/bin/zsh
+
+# Track bug id for each branch.
+#
+# bug string value is stored in git config in key branch.<this branch>.bug
+# Agnostic to the value of the bug, except that blank ("") or zero (0) values
+# clear the key value
+#
+# exist with non-zero status if not on a named branch.
+# exist with non-zero status if key does not exist on retrieve
+#
+# Usage:
+#     git bug 1234  # set bug string for current branch to 1234
+#     git bug 0     # delete the bug for this branch
+#     git bug ""    # delete teh bug for this branch
+#     git bug       # retrieve the bug string for this branch
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$branch" = "HEAD" ]; then
+    # ignore DETACHED HEAD state.
+    exit 1
+fi
+
+bug_key="branch.$branch.bug"
+
+if [ $# -gt 0 ]; then
+    if [ -z "$1" -o "$1" = "0" ]; then
+        echo "delete bug for branch:$branch"
+        git config --unset "$bug_key"
+    else
+        bug="$*"
+        echo "setting bug:$bug on branch:$branch"
+        git config $bug_key "$bug"
+    fi
+else
+    git config --get $bug_key
+fi
