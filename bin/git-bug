@@ -1,28 +1,44 @@
-#!/bin/zsh
+#!/bin/sh
+
+set -e
 
 # Track bug id for each branch.
 #
 # bug string value is stored in git config in key branch.<this branch>.bug
 # Agnostic to the value of the bug, except that blank ("") or zero (0) values
-# clear the key value
+# clear the key value.
 #
-# exist with non-zero status if not on a named branch.
-# exist with non-zero status if key does not exist on retrieve
+# exits with non-zero status if key does not exist on retrieve
+# exits with non-zero status if not on a named branch, except
+# during merge/rebase.
 #
 # Usage:
 #     git bug 1234  # set bug string for current branch to 1234
-#     git bug 0     # delete the bug for this branch
-#     git bug ""    # delete teh bug for this branch
+#     git bug 0     # delete the bug string for this branch
+#     git bug ""    # delete the bug string for this branch
 #     git bug       # retrieve the bug string for this branch
 
-branch=$(git rev-parse --abbrev-ref HEAD)
+BUG_CONFIG_KEY="bug"
 
-if [ "$branch" = "HEAD" ]; then
-    # ignore DETACHED HEAD state.
-    exit 1
+branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+if [ "$?" -ne 0 ]; then
+    echo "not in a git repo!"
+    exit 2
 fi
 
-bug_key="branch.$branch.bug"
+if [ "$branch" = "HEAD" ]; then
+    # DETACHED HEAD state.  Try to parse the rebase-merge head-name file
+    head_name_file="$(git rev-parse --show-toplevel)/.git/rebase-merge/head-name"
+    if [ -f "${head_name_file}" ]; then
+        # refs/head/abc -> abc; refs/head/feature/foo -> feature/foo
+        branch=$(cut -f3- -d/ $head_name_file)
+    else
+        # ignore DETACHED HEAD state.
+        exit 1
+    fi
+fi
+
+bug_key="branch.$branch.${BUG_CONFIG_KEY}"
 
 if [ $# -gt 0 ]; then
     if [ -z "$1" -o "$1" = "0" ]; then
