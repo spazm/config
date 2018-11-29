@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>A is for Athena G_is_for_Glue</title>
+<meta name="author" content="(Andrew Grangaard)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/moon.css" id="theme"/>
+
+<link rel="stylesheet" href="sky.css"/>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/css/zenburn.css"/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="./athena_images/fantastic_simba_blue_squash.png" data-background-size="100%"><h1 class="title">A is for Athena G_is_for_Glue</h1>
+</section>
+
+
+<section>
+<section id="slide-org47acda1">
+<h2 id="org47acda1">Amazon Athena</h2>
+<p>
+Service to analyze data in S3 using SQL (prestoDB)
+<img src="./athena_images/2-amazon_athena.png" alt="2-amazon_athena.png" />
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org3bc867c">
+<h2 id="org3bc867c">Glue Data Catalog</h2>
+<p>
+Hive Compatible Metadata store from AWS Glue
+<img src="./athena_images/aws-glue-metadata-screenshot.png" alt="aws-glue-metadata-screenshot.png" />
+</p>
+
+</section>
+<section >
+
+<div class="figure">
+<p><img src="./athena_images/aws-s3-glue-amazon-2-orig.png" alt="aws-s3-glue-amazon-2-orig.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org087ba5e">
+<h2 id="org087ba5e">Data</h2>
+<dl>
+<dt><code>core</code></dt><dd><ul>
+<li>cloudflare, cloudtrail, and elb logs</li>
+<li>prod logs by tag, date, hour</li>
+
+</ul></dd>
+<dt><code>prod_alerts</code>  / <code>prod_starterview</code></dt><dd><ul>
+<li>mirrors of alerts and starterview for data enrichment</li>
+
+</ul></dd>
+<dt><code>prod_inventory</code>, <code>stg_inventory</code>, <code>dev_inventory</code></dt><dd><ul>
+<li>table for each s3 bucket showing s3 meta data (s3 inventory).</li>
+
+</ul></dd>
+
+</dl>
+</section>
+<section id="slide-orgd366439">
+<h3 id="orgd366439">Data: Unified logs</h3>
+<dl>
+<dt><code>core.prod_unified_logs</code></dt><dd>3 days worth of all events, partitioned by <code>tag</code>, <code>log_date</code>, <code>hour</code></dd>
+<dt><code>raw_unified</code></dt><dd>database per tag, raw json logs partitioned by <code>log_date</code></dd>
+<dt><code>struct_unified</code></dt><dd>manually created tables, map json to fields</dd>
+<dt><code>prod_event</code></dt><dd><ul>
+<li>converted from json to read-optimized parquet</li>
+<li>s3://prod-ziprecruiter-datalake-data</li>
+
+</ul></dd>
+<dt><code>prod_unified_raw_v1</code></dt><dd><ul>
+<li>raw event logs, requires interpreting json</li>
+<li>492 tables! who maintains?</li>
+
+</ul></dd>
+
+</dl>
+</section>
+</section>
+<section>
+<section id="slide-orga0cb429">
+<h2 id="orga0cb429">Examples</h2>
+<div class="outline-text-2" id="text-orga0cb429">
+</div>
+</section>
+<section id="slide-org101baf5">
+<h3 id="org101baf5">Prod Logs</h3>
+<div class="org-src-container">
+
+<pre><code class="sql" >SELECT tag,
+         count(1) AS cnt
+FROM "core"."prod_unified_logs"
+WHERE log_date=20181128
+GROUP BY  1
+ORDER BY  2 DESC limit 10
+</code></pre>
+</div>
+
+<p>
+10 minute query scans 450 gb of data. ($2.50 query)
+</p>
+
+<pre  class="example">
+        tag	                          cnt
+1	app.search-team.job-server-trace  725481457
+2	app.search-team.nginx             407582049
+3	seo.job.labeler                   217798100
+4	app.nginx.access                  210645977
+5	app.search-team.lager             206278310
+6	perform-queued-tasks              147599866
+7	python3-6.stdout                  122406133
+8	app.search-team.impressions        62130730
+9	www.zr-proxy.access                61259979
+10	hiring-company-shielding           54364283
+</pre>
+
+</section>
+<section >
+
+<div class="figure">
+<p><img src="./athena_images/athena_core_prod_unified.png" alt="athena_core_prod_unified.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgc34f6bd">
+<h3 id="orgc34f6bd">S3 Inventory</h3>
+<div class="outline-text-3" id="text-orgc34f6bd">
+</div>
+</section>
+<section id="slide-org0f27460">
+<h4 id="org0f27460">yopass bucket via aws cli</h4>
+<pre  class="example">
+% aws s3 ls s3://yopass.ziprecruiter.com/                                                             :)-(master)-~/src/github/makeplus/makeplus
+                           PRE static/
+2018-08-27 11:25:53         19 _redirects
+2018-08-27 11:25:54        196 asset-manifest.json
+2018-08-27 11:25:54       5558 favicon.ico
+2018-08-27 11:25:54      21813 favicon.png
+2018-08-27 11:25:54       1044 index.html
+2018-08-27 11:25:54        317 manifest.json
+2018-08-27 11:25:54         26 robots.txt
+2018-08-27 11:25:54       3288 service-worker.js
+
+% aws s3 ls s3://yopass.ziprecruiter.com/static/                                                      :)-(master)-~/src/github/makeplus/makeplus
+                           PRE css/
+                           PRE js/
+
+% aws s3 ls s3://yopass.ziprecruiter.com/static/css/                                                  :)-(master)-~/src/github/makeplus/makeplus
+2018-08-27 11:25:54     137510 main.6f022e07.css
+2018-08-27 11:25:54     221969 main.6f022e07.css.map
+
+% aws s3 ls s3://yopass.ziprecruiter.com/static/js/                                                   :)-(master)-~/src/github/makeplus/makeplus
+2018-08-27 11:25:54     632051 main.6371b98d.js
+2018-08-27 11:25:54    3534838 main.6371b98d.js.map
+</pre>
+</section>
+<section id="slide-org3380c59">
+<h4 id="org3380c59">yopass bucket via s3_inventory</h4>
+<div class="org-src-container">
+
+<pre><code class="sql" >SELECT 
+  key
+  , is_latest
+  , is_delete_marker
+  , size
+
+FROM "prod_inventory"."yopass_ziprecruiter_com"
+WHERE 
+  dt='2018-11-24-08-00'
+ORDER BY key DESC 
+</code></pre>
+</div>
+
+<pre  class="example">
+| bucket                  | key                              | version_id | is_latest | is_delete_marker |    size | last_modified_date      | e_tag                            | storage_class | is_multipart_uploaded | replication_status | encryption_status |               dt |
+| yopass.ziprecruiter.com | static/js/main.6371b98d.js.map   |            | true      | false            | 3534838 | 2018-08-27 18:25:54.000 | dae2162b1050af0ec34dfff9595c01bf | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+| yopass.ziprecruiter.com | static/js/main.6371b98d.js       |            | true      | false            |  632051 | 2018-08-27 18:25:54.000 | 07235ee851afeb53e47e571a2f819011 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+| yopass.ziprecruiter.com | static/css/main.6f022e07.css.map |            | true      | false            |  221969 | 2018-08-27 18:25:54.000 | 719b88e811786e2f7406fddafbf6fa32 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+| yopass.ziprecruiter.com | static/css/main.6f022e07.css     |            | true      | false            |  137510 | 2018-08-27 18:25:54.000 | 59f7904ec4457a7317dc9ce2e2083efc | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+| yopass.ziprecruiter.com | service-worker.js                |            | true      | false            |    3288 | 2018-08-27 18:25:54.000 | a49550fa0b44d3fcaab0a59418b2f285 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+| yopass.ziprecruiter.com | robots.txt                       |            | true      | false            |      26 | 2018-08-27 18:25:54.000 | f71d20196d4caf35b6a670db8c70b03d | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+| yopass.ziprecruiter.com | manifest.json                    |            | true      | false            |     317 | 2018-08-27 18:25:54.000 | 730915ec2725cf6721080a6516b23f15 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+| yopass.ziprecruiter.com | index.html                       |            | true      | false            |    1044 | 2018-08-27 18:25:54.000 | 042dff2ef6cdbbc1577324271281406f | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+| yopass.ziprecruiter.com | favicon.png                      |            | true      | false            |   21813 | 2018-08-27 18:25:54.000 | eb26a2b691f72c261a71414d437d2809 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+| yopass.ziprecruiter.com | favicon.ico                      |            | true      | false            |    5558 | 2018-08-27 18:25:54.000 | 13cdc50ac3dc81069fd20ff1c00ba25c | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+| yopass.ziprecruiter.com | asset-manifest.json              |            | true      | false            |     196 | 2018-08-27 18:25:54.000 | 9931adbd324d5e67cab395f07babdfbe | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+| yopass.ziprecruiter.com | _redirects                       |            | true      | false            |      19 | 2018-08-27 18:25:53.000 | 24451388c2fc69419fac47ca08311257 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-org7c3db5a">
+<h2 id="org7c3db5a">Query Athena</h2>
+<ol>
+<li><code>athena</code> tool in AWS Console.</li>
+<li>API, using <code>boto</code> or similar tool.</li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-org90d765c">
+<h2 id="org90d765c">AWS Console Athena</h2>
+
+<div class="figure">
+<p><img src="./athena_images/3.1-aws-console-login.png" alt="3.1-aws-console-login.png" />
+</p>
+</div>
+</section>
+<section >
+
+<div class="figure">
+<p><img src="./athena_images/3.2-aws-multifactor.png" alt="3.2-aws-multifactor.png" />
+</p>
+</div>
+</section>
+<section >
+
+<div class="figure">
+<p><img src="./athena_images/3.3-aws-console.png" alt="3.3-aws-console.png" />
+</p>
+</div>
+</section>
+<section >
+
+<div class="figure">
+<p><img src="./athena_images/5-athena-prod_inventory.png" alt="5-athena-prod_inventory.png" />
+</p>
+</div>
+</section>
+<section id="slide-orgbb2de6a">
+<h3 id="orgbb2de6a">Show Databases</h3>
+
+<div class="figure">
+<p><img src="./athena_images/4-athena-database-list.png" alt="4-athena-database-list.png" />
+</p>
+</div>
+</section>
+<section id="slide-org270eaaa">
+<h3 id="org270eaaa">Show Tables in Database</h3>
+
+<div class="figure">
+<p><img src="./athena_images/5-athena-prod_inventory.png" alt="5-athena-prod_inventory.png" />
+</p>
+</div>
+</section>
+<section id="slide-orgc882db1">
+<h3 id="orgc882db1">Preview Table</h3>
+
+<div class="figure">
+<p><img src="./athena_images/5-athena_prod_inventory_describe_table.png" alt="5-athena_prod_inventory_describe_table.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org62bab92">
+<h2 id="org62bab92">aws cmdline</h2>
+<div class="outline-text-2" id="text-org62bab92">
+</div>
+</section>
+<section id="slide-org059bb6a">
+<h3 id="org059bb6a">all databases</h3>
+<div class="org-src-container">
+
+<pre><code class="shell" >aws glue get-databases | jq -c '.DatabaseList[]|.Name'
+</code></pre>
+</div>
+
+<pre  class="example">
+"adhoc"
+"core"
+"default"
+"dev_alerts"
+"dev_log_data"
+"dev_reach"
+"dev_reporting"
+"dev_spamhaus"
+"dev_starterview"
+"dev_zr_finance"
+"dev_zr_shared"
+"es"
+"hrxml"
+"logs_test"
+"prod"
+"prod_alerts"
+"prod_athena_rpt"
+"prod_event"
+"prod_jobs"
+"prod_log_data"
+"prod_reach"
+"prod_reach_test"
+"prod_reach_test2"
+"prod_reporting"
+"prod_reporting_test"
+"prod_spamhaus"
+"prod_starterview"
+"prod_static"
+"prod_tracking"
+"prod_unified_raw_v1"
+"prod_zr_finance"
+"prod_zr_shared"
+"raw_unified"
+"reach2"
+"redshift_archive"
+"sburke"
+"staging"
+"stg_athena_rpt_temp"
+"stg_raw_unified"
+"stg_unified_raw_v1"
+"struct_unified"
+"tjones"
+"ziprank"
+</pre>
+
+</section>
+<section id="slide-org41d6c85">
+<h3 id="org41d6c85"><code>core</code> database table</h3>
+<div class="org-src-container">
+
+<pre><code class="shell" >aws glue get-tables --database-name=core |jq '.TableList[].Name'
+</code></pre>
+</div>
+
+<pre  class="example">
+"dev_kafka_connect_test"
+"dev_kafka_connect_unified_logs"
+"dev_unified_logs"
+"log_cloudflare"
+"log_cloudtrail"
+"log_elb_ue1"
+"log_prod_elb_ue1"
+"prod_unified_logs"
+"stg_unified_logs"
+</pre>
+</section>
+</section>
+<section>
+<section id="slide-orgad54f99">
+<h2 id="orgad54f99">EXTRA Images TODO</h2>
+</section>
+<section >
+
+<div class="figure">
+<p><img src="./athena_images/4-athena-database-list.png" alt="4-athena-database-list.png" />
+</p>
+</div>
+</section>
+<section >
+
+<div class="figure">
+<p><img src="./athena_images/5-athena_prod_inventory_describe_table.png" alt="5-athena_prod_inventory_describe_table.png" />
+</p>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+margin: 0.20,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
