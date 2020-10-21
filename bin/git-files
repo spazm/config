@@ -1,0 +1,4 @@
+:!/bin/sh
+# show modified files (active or staged)
+
+git diff-tree --no-commit-id --name-only -r HEAD
