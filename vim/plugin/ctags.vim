@@ -89,7 +89,9 @@ if !exists("ctags_args")
     "let g:ctags_args='-I __declspec+'
 
     " Version 2.1 default:
-    let g:ctags_args='--c-types=cfgsu --vim-types=f --if0=yes'
+    " let g:ctags_args='--c-types=cfgsu --vim-types=f --if0=yes'
+    " Universal 3.x
+    let g:ctags_args='--c-types=fgsu --vim-types=f --if0=yes'
 endif
 
 if !exists("generate_tags")
