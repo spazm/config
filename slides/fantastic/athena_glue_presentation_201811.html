@@ -7,19 +7,19 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
 
-<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/moon.css" id="theme"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/moon.css" id="theme"/>
 
 <link rel="stylesheet" href="sky.css"/>
-<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/css/zenburn.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/3.0.0/lib/css/zenburn.css"/>
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
 <script>
     if( window.location.search.match( /print-pdf/gi ) ) {
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        link.href = 'https://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -32,8 +32,8 @@
 
 
 <section>
-<section id="slide-org47acda1">
-<h2 id="org47acda1">Amazon Athena</h2>
+<section id="slide-org8d42f0b">
+<h2 id="org8d42f0b">Amazon Athena</h2>
 <p>
 Service to analyze data in S3 using SQL (prestoDB)
 <img src="./athena_images/2-amazon_athena.png" alt="2-amazon_athena.png" />
@@ -42,8 +42,8 @@ Service to analyze data in S3 using SQL (prestoDB)
 </section>
 </section>
 <section>
-<section id="slide-org3bc867c">
-<h2 id="org3bc867c">Glue Data Catalog</h2>
+<section id="slide-orgf7f1a2e">
+<h2 id="orgf7f1a2e">Glue Data Catalog</h2>
 <p>
 Hive Compatible Metadata store from AWS Glue
 <img src="./athena_images/aws-glue-metadata-screenshot.png" alt="aws-glue-metadata-screenshot.png" />
@@ -60,8 +60,8 @@ Hive Compatible Metadata store from AWS Glue
 </section>
 </section>
 <section>
-<section id="slide-org087ba5e">
-<h2 id="org087ba5e">Data</h2>
+<section id="slide-orgc968025">
+<h2 id="orgc968025">Data</h2>
 <dl>
 <dt><code>core</code></dt><dd><ul>
 <li>cloudflare, cloudtrail, and elb logs</li>
@@ -79,8 +79,8 @@ Hive Compatible Metadata store from AWS Glue
 
 </dl>
 </section>
-<section id="slide-orgd366439">
-<h3 id="orgd366439">Data: Unified logs</h3>
+<section id="slide-org4fe4076">
+<h3 id="org4fe4076">Data: Unified logs</h3>
 <dl>
 <dt><code>core.prod_unified_logs</code></dt><dd>3 days worth of all events, partitioned by <code>tag</code>, <code>log_date</code>, <code>hour</code></dd>
 <dt><code>raw_unified</code></dt><dd>database per tag, raw json logs partitioned by <code>log_date</code></dd>
@@ -100,121 +100,8 @@ Hive Compatible Metadata store from AWS Glue
 </section>
 </section>
 <section>
-<section id="slide-orga0cb429">
-<h2 id="orga0cb429">Examples</h2>
-<div class="outline-text-2" id="text-orga0cb429">
-</div>
-</section>
-<section id="slide-org101baf5">
-<h3 id="org101baf5">Prod Logs</h3>
-<div class="org-src-container">
-
-<pre><code class="sql" >SELECT tag,
-         count(1) AS cnt
-FROM "core"."prod_unified_logs"
-WHERE log_date=20181128
-GROUP BY  1
-ORDER BY  2 DESC limit 10
-</code></pre>
-</div>
-
-<p>
-10 minute query scans 450 gb of data. ($2.50 query)
-</p>
-
-<pre  class="example">
-        tag	                          cnt
-1	app.search-team.job-server-trace  725481457
-2	app.search-team.nginx             407582049
-3	seo.job.labeler                   217798100
-4	app.nginx.access                  210645977
-5	app.search-team.lager             206278310
-6	perform-queued-tasks              147599866
-7	python3-6.stdout                  122406133
-8	app.search-team.impressions        62130730
-9	www.zr-proxy.access                61259979
-10	hiring-company-shielding           54364283
-</pre>
-
-</section>
-<section >
-
-<div class="figure">
-<p><img src="./athena_images/athena_core_prod_unified.png" alt="athena_core_prod_unified.png" />
-</p>
-</div>
-
-</section>
-<section id="slide-orgc34f6bd">
-<h3 id="orgc34f6bd">S3 Inventory</h3>
-<div class="outline-text-3" id="text-orgc34f6bd">
-</div>
-</section>
-<section id="slide-org0f27460">
-<h4 id="org0f27460">yopass bucket via aws cli</h4>
-<pre  class="example">
-% aws s3 ls s3://yopass.ziprecruiter.com/                                                             :)-(master)-~/src/github/makeplus/makeplus
-                           PRE static/
-2018-08-27 11:25:53         19 _redirects
-2018-08-27 11:25:54        196 asset-manifest.json
-2018-08-27 11:25:54       5558 favicon.ico
-2018-08-27 11:25:54      21813 favicon.png
-2018-08-27 11:25:54       1044 index.html
-2018-08-27 11:25:54        317 manifest.json
-2018-08-27 11:25:54         26 robots.txt
-2018-08-27 11:25:54       3288 service-worker.js
-
-% aws s3 ls s3://yopass.ziprecruiter.com/static/                                                      :)-(master)-~/src/github/makeplus/makeplus
-                           PRE css/
-                           PRE js/
-
-% aws s3 ls s3://yopass.ziprecruiter.com/static/css/                                                  :)-(master)-~/src/github/makeplus/makeplus
-2018-08-27 11:25:54     137510 main.6f022e07.css
-2018-08-27 11:25:54     221969 main.6f022e07.css.map
-
-% aws s3 ls s3://yopass.ziprecruiter.com/static/js/                                                   :)-(master)-~/src/github/makeplus/makeplus
-2018-08-27 11:25:54     632051 main.6371b98d.js
-2018-08-27 11:25:54    3534838 main.6371b98d.js.map
-</pre>
-</section>
-<section id="slide-org3380c59">
-<h4 id="org3380c59">yopass bucket via s3_inventory</h4>
-<div class="org-src-container">
-
-<pre><code class="sql" >SELECT 
-  key
-  , is_latest
-  , is_delete_marker
-  , size
-
-FROM "prod_inventory"."yopass_ziprecruiter_com"
-WHERE 
-  dt='2018-11-24-08-00'
-ORDER BY key DESC 
-</code></pre>
-</div>
-
-<pre  class="example">
-| bucket                  | key                              | version_id | is_latest | is_delete_marker |    size | last_modified_date      | e_tag                            | storage_class | is_multipart_uploaded | replication_status | encryption_status |               dt |
-| yopass.ziprecruiter.com | static/js/main.6371b98d.js.map   |            | true      | false            | 3534838 | 2018-08-27 18:25:54.000 | dae2162b1050af0ec34dfff9595c01bf | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | static/js/main.6371b98d.js       |            | true      | false            |  632051 | 2018-08-27 18:25:54.000 | 07235ee851afeb53e47e571a2f819011 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | static/css/main.6f022e07.css.map |            | true      | false            |  221969 | 2018-08-27 18:25:54.000 | 719b88e811786e2f7406fddafbf6fa32 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | static/css/main.6f022e07.css     |            | true      | false            |  137510 | 2018-08-27 18:25:54.000 | 59f7904ec4457a7317dc9ce2e2083efc | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | service-worker.js                |            | true      | false            |    3288 | 2018-08-27 18:25:54.000 | a49550fa0b44d3fcaab0a59418b2f285 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | robots.txt                       |            | true      | false            |      26 | 2018-08-27 18:25:54.000 | f71d20196d4caf35b6a670db8c70b03d | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | manifest.json                    |            | true      | false            |     317 | 2018-08-27 18:25:54.000 | 730915ec2725cf6721080a6516b23f15 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | index.html                       |            | true      | false            |    1044 | 2018-08-27 18:25:54.000 | 042dff2ef6cdbbc1577324271281406f | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | favicon.png                      |            | true      | false            |   21813 | 2018-08-27 18:25:54.000 | eb26a2b691f72c261a71414d437d2809 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | favicon.ico                      |            | true      | false            |    5558 | 2018-08-27 18:25:54.000 | 13cdc50ac3dc81069fd20ff1c00ba25c | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | asset-manifest.json              |            | true      | false            |     196 | 2018-08-27 18:25:54.000 | 9931adbd324d5e67cab395f07babdfbe | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | _redirects                       |            | true      | false            |      19 | 2018-08-27 18:25:53.000 | 24451388c2fc69419fac47ca08311257 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-</pre>
-
-</section>
-</section>
-<section>
-<section id="slide-org7c3db5a">
-<h2 id="org7c3db5a">Query Athena</h2>
+<section id="slide-org1c9d96d">
+<h2 id="org1c9d96d">Query Athena</h2>
 <ol>
 <li><code>athena</code> tool in AWS Console.</li>
 <li>API, using <code>boto</code> or similar tool.</li>
@@ -224,8 +111,8 @@ ORDER BY key DESC
 </section>
 </section>
 <section>
-<section id="slide-org90d765c">
-<h2 id="org90d765c">AWS Console Athena</h2>
+<section id="slide-org4554613">
+<h2 id="org4554613">AWS Console Athena</h2>
 
 <div class="figure">
 <p><img src="./athena_images/3.1-aws-console-login.png" alt="3.1-aws-console-login.png" />
@@ -253,24 +140,24 @@ ORDER BY key DESC
 </p>
 </div>
 </section>
-<section id="slide-orgbb2de6a">
-<h3 id="orgbb2de6a">Show Databases</h3>
+<section id="slide-org040cce4">
+<h3 id="org040cce4">Show Databases</h3>
 
 <div class="figure">
 <p><img src="./athena_images/4-athena-database-list.png" alt="4-athena-database-list.png" />
 </p>
 </div>
 </section>
-<section id="slide-org270eaaa">
-<h3 id="org270eaaa">Show Tables in Database</h3>
+<section id="slide-orge1576f6">
+<h3 id="orge1576f6">Show Tables in Database</h3>
 
 <div class="figure">
 <p><img src="./athena_images/5-athena-prod_inventory.png" alt="5-athena-prod_inventory.png" />
 </p>
 </div>
 </section>
-<section id="slide-orgc882db1">
-<h3 id="orgc882db1">Preview Table</h3>
+<section id="slide-orge023ca8">
+<h3 id="orge023ca8">Preview Table</h3>
 
 <div class="figure">
 <p><img src="./athena_images/5-athena_prod_inventory_describe_table.png" alt="5-athena_prod_inventory_describe_table.png" />
@@ -280,13 +167,13 @@ ORDER BY key DESC
 </section>
 </section>
 <section>
-<section id="slide-org62bab92">
-<h2 id="org62bab92">aws cmdline</h2>
-<div class="outline-text-2" id="text-org62bab92">
+<section id="slide-orgd7ecb52">
+<h2 id="orgd7ecb52">aws cmdline</h2>
+<div class="outline-text-2" id="text-orgd7ecb52">
 </div>
 </section>
-<section id="slide-org059bb6a">
-<h3 id="org059bb6a">all databases</h3>
+<section id="slide-org2f77e28">
+<h3 id="org2f77e28">all databases</h3>
 <div class="org-src-container">
 
 <pre><code class="shell" >aws glue get-databases | jq -c '.DatabaseList[]|.Name'
@@ -340,8 +227,8 @@ ORDER BY key DESC
 </pre>
 
 </section>
-<section id="slide-org41d6c85">
-<h3 id="org41d6c85"><code>core</code> database table</h3>
+<section id="slide-org4dc6f4d">
+<h3 id="org4dc6f4d"><code>core</code> database table</h3>
 <div class="org-src-container">
 
 <pre><code class="shell" >aws glue get-tables --database-name=core |jq '.TableList[].Name'
@@ -362,8 +249,128 @@ ORDER BY key DESC
 </section>
 </section>
 <section>
-<section id="slide-orgad54f99">
-<h2 id="orgad54f99">EXTRA Images TODO</h2>
+<section id="slide-org7ccfa23">
+<h2 id="org7ccfa23">Examples</h2>
+<div class="outline-text-2" id="text-org7ccfa23">
+</div>
+</section>
+<section id="slide-orgb313262">
+<h3 id="orgb313262">Prod Logs</h3>
+<div class="org-src-container">
+
+<pre><code class="sql" >SELECT tag,
+         count(1) AS cnt
+FROM "core"."prod_unified_logs"
+WHERE log_date=20181128
+GROUP BY  1
+ORDER BY  2 DESC limit 10
+</code></pre>
+</div>
+
+<p>
+10 minute query scans 450 gb of data. ($2.50 query)
+</p>
+
+<pre  class="example">
+        tag	                          cnt
+1	app.search-team.job-server-trace  725481457
+2	app.search-team.nginx             407582049
+3	seo.job.labeler                   217798100
+4	app.nginx.access                  210645977
+5	app.search-team.lager             206278310
+6	perform-queued-tasks              147599866
+7	python3-6.stdout                  122406133
+8	app.search-team.impressions        62130730
+9	www.zr-proxy.access                61259979
+10	hiring-company-shielding           54364283
+</pre>
+
+</section>
+<section >
+
+<div class="figure">
+<p><img src="./athena_images/athena_core_prod_unified.png" alt="athena_core_prod_unified.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgd82b59c">
+<h3 id="orgd82b59c">S3 Inventory</h3>
+<div class="outline-text-3" id="text-orgd82b59c">
+</div>
+</section>
+<section id="slide-org97ca23a">
+<h4 id="org97ca23a">yopass bucket via aws cli</h4>
+<pre  class="example">
+% aws s3 ls s3://yopass.ziprecruiter.com/                                                             :)-(master)-~/src/github/makeplus/makeplus
+                           PRE static/
+2018-08-27 11:25:53         19 _redirects
+2018-08-27 11:25:54        196 asset-manifest.json
+2018-08-27 11:25:54       5558 favicon.ico
+2018-08-27 11:25:54      21813 favicon.png
+2018-08-27 11:25:54       1044 index.html
+2018-08-27 11:25:54        317 manifest.json
+2018-08-27 11:25:54         26 robots.txt
+2018-08-27 11:25:54       3288 service-worker.js
+
+% aws s3 ls s3://yopass.ziprecruiter.com/static/                                                      :)-(master)-~/src/github/makeplus/makeplus
+                           PRE css/
+                           PRE js/
+
+% aws s3 ls s3://yopass.ziprecruiter.com/static/css/                                                  :)-(master)-~/src/github/makeplus/makeplus
+2018-08-27 11:25:54     137510 main.6f022e07.css
+2018-08-27 11:25:54     221969 main.6f022e07.css.map
+
+% aws s3 ls s3://yopass.ziprecruiter.com/static/js/                                                   :)-(master)-~/src/github/makeplus/makeplus
+2018-08-27 11:25:54     632051 main.6371b98d.js
+2018-08-27 11:25:54    3534838 main.6371b98d.js.map
+</pre>
+</section>
+<section id="slide-org1f6028d">
+<h4 id="org1f6028d">yopass bucket via s3_inventory</h4>
+<div class="org-src-container">
+
+<pre><code class="sql" >SELECT 
+  key
+  , is_latest
+  , is_delete_marker
+  , size
+
+FROM "prod_inventory"."yopass_ziprecruiter_com"
+WHERE 
+  dt='2018-11-24-08-00'
+ORDER BY key DESC 
+</code></pre>
+</div>
+
+</section>
+<section >
+
+<div class="figure">
+<p><img src="./athena_images/athena_results_yopass.png" alt="athena_results_yopass.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org813f0be">
+<h2 id="org813f0be">FIN(N)</h2>
+
+<div class="figure">
+<p><img src="https://resources.bamboohr.com/images/photo_male.png" alt="photo_male.png" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orge2ee834">
+<h2 id="orge2ee834">FIN</h2>
+</section>
+</section>
+<section>
+<section id="slide-org02b110d">
+<h2 id="org02b110d">EXTRA Images TODO</h2>
 </section>
 <section >
 
@@ -382,8 +389,8 @@ ORDER BY key DESC
 </section>
 </div>
 </div>
-<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
-<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
+<script src="https://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
 
 <script>
 // Full list of configuration options available here:
@@ -411,8 +418,8 @@ multiplex: {
 
 // Optional libraries used to extend on reveal.js
 dependencies: [
- { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+ { src: 'https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: 'https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
 });
 </script>
 </body>

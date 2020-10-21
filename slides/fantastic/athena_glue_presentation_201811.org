@@ -1,5 +1,5 @@
 #+PANDOC_OPTIONS: format=org-mode
-#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/reveal.js/3.0.0/
 #+REVEAL_EXTRA_CSS: sky.css
 #+REVEAL_MARGIN: .2
 #+REVEAL_THEME_off: sky
@@ -47,92 +47,6 @@ Hive Compatible Metadata store from AWS Glue
   + =prod_unified_raw_v1= ::
     + raw event logs, requires interpreting json
     + 492 tables! who maintains?
-* Examples
-** Prod Logs
-#+BEGIN_SRC sql
-SELECT tag,
-         count(1) AS cnt
-FROM "core"."prod_unified_logs"
-WHERE log_date=20181128
-GROUP BY  1
-ORDER BY  2 DESC limit 10
-#+END_SRC
-
-10 minute query scans 450 gb of data. ($2.50 query)
-
-#+BEGIN_SRC 
-  	    tag	                          cnt
-1	app.search-team.job-server-trace  725481457
-2	app.search-team.nginx             407582049
-3	seo.job.labeler                   217798100
-4	app.nginx.access                  210645977
-5	app.search-team.lager             206278310
-6	perform-queued-tasks              147599866
-7	python3-6.stdout                  122406133
-8	app.search-team.impressions        62130730
-9	www.zr-proxy.access                61259979
-10	hiring-company-shielding           54364283
-#+END_SRC
-
-#+REVEAL: split
-[[./athena_images/athena_core_prod_unified.png]]
-
-** S3 Inventory
-*** yopass bucket via aws cli
- #+BEGIN_SRC 
- % aws s3 ls s3://yopass.ziprecruiter.com/                                                             :)-(master)-~/src/github/makeplus/makeplus
-                            PRE static/
- 2018-08-27 11:25:53         19 _redirects
- 2018-08-27 11:25:54        196 asset-manifest.json
- 2018-08-27 11:25:54       5558 favicon.ico
- 2018-08-27 11:25:54      21813 favicon.png
- 2018-08-27 11:25:54       1044 index.html
- 2018-08-27 11:25:54        317 manifest.json
- 2018-08-27 11:25:54         26 robots.txt
- 2018-08-27 11:25:54       3288 service-worker.js
-
- % aws s3 ls s3://yopass.ziprecruiter.com/static/                                                      :)-(master)-~/src/github/makeplus/makeplus
-                            PRE css/
-                            PRE js/
-
- % aws s3 ls s3://yopass.ziprecruiter.com/static/css/                                                  :)-(master)-~/src/github/makeplus/makeplus
- 2018-08-27 11:25:54     137510 main.6f022e07.css
- 2018-08-27 11:25:54     221969 main.6f022e07.css.map
-
- % aws s3 ls s3://yopass.ziprecruiter.com/static/js/                                                   :)-(master)-~/src/github/makeplus/makeplus
- 2018-08-27 11:25:54     632051 main.6371b98d.js
- 2018-08-27 11:25:54    3534838 main.6371b98d.js.map
- #+END_SRC
-*** yopass bucket via s3_inventory
-#+BEGIN_SRC sql
-SELECT 
-  key
-  , is_latest
-  , is_delete_marker
-  , size
-
-FROM "prod_inventory"."yopass_ziprecruiter_com"
-WHERE 
-  dt='2018-11-24-08-00'
-ORDER BY key DESC 
-#+END_SRC
-
-#+BEGIN_SRC 
-| bucket                  | key                              | version_id | is_latest | is_delete_marker |    size | last_modified_date      | e_tag                            | storage_class | is_multipart_uploaded | replication_status | encryption_status |               dt |
-| yopass.ziprecruiter.com | static/js/main.6371b98d.js.map   |            | true      | false            | 3534838 | 2018-08-27 18:25:54.000 | dae2162b1050af0ec34dfff9595c01bf | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | static/js/main.6371b98d.js       |            | true      | false            |  632051 | 2018-08-27 18:25:54.000 | 07235ee851afeb53e47e571a2f819011 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | static/css/main.6f022e07.css.map |            | true      | false            |  221969 | 2018-08-27 18:25:54.000 | 719b88e811786e2f7406fddafbf6fa32 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | static/css/main.6f022e07.css     |            | true      | false            |  137510 | 2018-08-27 18:25:54.000 | 59f7904ec4457a7317dc9ce2e2083efc | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | service-worker.js                |            | true      | false            |    3288 | 2018-08-27 18:25:54.000 | a49550fa0b44d3fcaab0a59418b2f285 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | robots.txt                       |            | true      | false            |      26 | 2018-08-27 18:25:54.000 | f71d20196d4caf35b6a670db8c70b03d | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | manifest.json                    |            | true      | false            |     317 | 2018-08-27 18:25:54.000 | 730915ec2725cf6721080a6516b23f15 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | index.html                       |            | true      | false            |    1044 | 2018-08-27 18:25:54.000 | 042dff2ef6cdbbc1577324271281406f | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | favicon.png                      |            | true      | false            |   21813 | 2018-08-27 18:25:54.000 | eb26a2b691f72c261a71414d437d2809 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | favicon.ico                      |            | true      | false            |    5558 | 2018-08-27 18:25:54.000 | 13cdc50ac3dc81069fd20ff1c00ba25c | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | asset-manifest.json              |            | true      | false            |     196 | 2018-08-27 18:25:54.000 | 9931adbd324d5e67cab395f07babdfbe | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-| yopass.ziprecruiter.com | _redirects                       |            | true      | false            |      19 | 2018-08-27 18:25:53.000 | 24451388c2fc69419fac47ca08311257 | STANDARD      | false                 |                    | SSE-S3            | 2018-11-24-08-00 |
-#+END_SRC
-
 * Query Athena
 
 1. =athena= tool in AWS Console.
@@ -224,6 +138,82 @@ aws glue get-tables --database-name=core |jq '.TableList[].Name'
 "prod_unified_logs"
 "stg_unified_logs"
 #+END_SRC
+* Examples
+** Prod Logs
+#+BEGIN_SRC sql
+SELECT tag,
+         count(1) AS cnt
+FROM "core"."prod_unified_logs"
+WHERE log_date=20181128
+GROUP BY  1
+ORDER BY  2 DESC limit 10
+#+END_SRC
+
+10 minute query scans 450 gb of data. ($2.50 query)
+
+#+BEGIN_SRC 
+  	    tag	                          cnt
+1	app.search-team.job-server-trace  725481457
+2	app.search-team.nginx             407582049
+3	seo.job.labeler                   217798100
+4	app.nginx.access                  210645977
+5	app.search-team.lager             206278310
+6	perform-queued-tasks              147599866
+7	python3-6.stdout                  122406133
+8	app.search-team.impressions        62130730
+9	www.zr-proxy.access                61259979
+10	hiring-company-shielding           54364283
+#+END_SRC
+
+#+REVEAL: split
+[[./athena_images/athena_core_prod_unified.png]]
+
+** S3 Inventory
+*** yopass bucket via aws cli
+ #+BEGIN_SRC 
+ % aws s3 ls s3://yopass.ziprecruiter.com/                                                             :)-(master)-~/src/github/makeplus/makeplus
+                            PRE static/
+ 2018-08-27 11:25:53         19 _redirects
+ 2018-08-27 11:25:54        196 asset-manifest.json
+ 2018-08-27 11:25:54       5558 favicon.ico
+ 2018-08-27 11:25:54      21813 favicon.png
+ 2018-08-27 11:25:54       1044 index.html
+ 2018-08-27 11:25:54        317 manifest.json
+ 2018-08-27 11:25:54         26 robots.txt
+ 2018-08-27 11:25:54       3288 service-worker.js
+
+ % aws s3 ls s3://yopass.ziprecruiter.com/static/                                                      :)-(master)-~/src/github/makeplus/makeplus
+                            PRE css/
+                            PRE js/
+
+ % aws s3 ls s3://yopass.ziprecruiter.com/static/css/                                                  :)-(master)-~/src/github/makeplus/makeplus
+ 2018-08-27 11:25:54     137510 main.6f022e07.css
+ 2018-08-27 11:25:54     221969 main.6f022e07.css.map
+
+ % aws s3 ls s3://yopass.ziprecruiter.com/static/js/                                                   :)-(master)-~/src/github/makeplus/makeplus
+ 2018-08-27 11:25:54     632051 main.6371b98d.js
+ 2018-08-27 11:25:54    3534838 main.6371b98d.js.map
+ #+END_SRC
+*** yopass bucket via s3_inventory
+#+BEGIN_SRC sql
+SELECT 
+  key
+  , is_latest
+  , is_delete_marker
+  , size
+
+FROM "prod_inventory"."yopass_ziprecruiter_com"
+WHERE 
+  dt='2018-11-24-08-00'
+ORDER BY key DESC 
+#+END_SRC
+
+#+REVEAL: split
+[[./athena_images/athena_results_yopass.png]]
+
+* FIN(N)
+[[https://resources.bamboohr.com/images/photo_male.png]]
+* FIN
 * EXTRA Images TODO
 #+REVEAL: split
 [[./athena_images/4-athena-database-list.png]]
