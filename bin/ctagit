@@ -3,6 +3,7 @@ ctags -f tags \
     --recurse --totals               \
     --exclude=blib --exclude=.svn    \
     --exclude=.git --exclude='*~'    \
-    --extra=q                        \
+    --extras=q                       \
     --python-kinds=-i                \
-    --languages=Perl,Python --langmap=Perl:+.t
+    --langmap=Perl:+.t               \
+    --languages=Perl,Python,Javascript,Rust
