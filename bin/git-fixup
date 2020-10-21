@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+file=$1
+
+if [ ! -e $file ]; then
+echo "file not found: $file";
+exit 1
+fi
+commit=$(git lastrev $file);
+
+if [ -z $commit ]; then
+echo "file not commited: $file";
+exit 2;
+fi
+
+[ -n "$DEBUG" ] && echo "fixup: $commit" >&2
+
+git commit --fixup $commit -- $file
