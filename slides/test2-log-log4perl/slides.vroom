@@ -1,0 +1,93 @@
+# This is a sample Vroom input file. It should help you get started.
+#
+# Edit this file with your content. Then run `vroom --vroom` to start
+# the show!
+#
+# See `perldoc Vroom::Vroom` for complete details.
+#
+---- config
+# Basic config options.
+title: Vroom!
+indent: 0
+height: 18
+width: 69
+skip: 0
+
+# The following options are for Gvim usage.
+# vim: gvim
+# fuopt: maxhorz,maxvert
+# guioptions: egmLtT
+# guicursor: a:blinkon0-ver25-Cursor
+# guifont: Bitstream_Vera_Sans_Mono:h18
+
+---- center
+Announcing Test2::Log::Log4perl
+
+by Andrew Grangaard
+---- center
+
+AKA YAYS
+---- center
+Yet Another Yak Shaving
+
+---- perl,i4
+== Test2::Tools::Compare
+
+use Test2::Tools::Compare;
+
+my $some_hash = { b=>2, d=>3, a=>1};
+like ($some_hash,
+      { a => 1, b=>2 },
+      "hash has my keys");
+----
+== Test::Log::Log4perl
+
+Sweet, I'll expand my Test::Log::Log4perl wrapper to use
+use Test2::Tools::Compare::like for the comparison.
+
+EASY PEASY
+----
+== Not so Easy Peasy
+
+Me: Hey, @chad, should I expect Test2 like work with this
+Test::Builder based module, since Test::Builder is built on
+Test2 now?
+
+@chad:  Uh no. that won't work.
+----
+== Converting from Test::Builder to Test2
+
+Actually pretty easy.  And will be faster and cleaner. Woo!
+---- diff
+
+
+-use Test::Builder;
+-my $Tester = Test::Builder->new();
+
++use Test2::API qw(context);
++use Test2::Tools::Compare qw(like);
++use Test2::Tools::Explain qw(explain);
+
+---- perl
+== Converting to Test2 : context
+
+# In all of the test module methods,
+# get and release the context
+
+sub my_logging_method {
+  my $ctx = context();
+  ...
+  $ctx->release();
+}
+
+----  perl
+== Test2::Compare::Number
+
+Test2::Tools::Compare qw(number);
+
+like(42, number(42));
+like("42.0", number(42));
+
+
+---- 
+== Problem: FLOATING POINT COMPARISONS SUCK
