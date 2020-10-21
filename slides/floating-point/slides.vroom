@@ -1,0 +1,44 @@
+# This is a sample Vroom input file. It should help you get started.
+#
+# Edit this file with your content. Then run `vroom --vroom` to start
+# the show!
+#
+# See `perldoc Vroom::Vroom` for complete details.
+#
+---- config
+# Basic config options.
+title: Vroom!
+indent: 0
+height: 18
+width: 69
+skip: 0
+
+# The following options are for Gvim usage.
+# vim: gvim
+# fuopt: maxhorz,maxvert
+# guioptions: egmLtT
+# guicursor: a:blinkon0-ver25-Cursor
+# guifont: Bitstream_Vera_Sans_Mono:h18
+
+---- center
+Floating Tricks and IEEE 754
+
+by Andrew Grangaard
+----
+== TOPICS
+* perl Numbers
+* The problem
+* Float as approximation
+* How do floats work?
+* Compare Floats
+----
+== Perl Numbers
+----
+== The Problem
+----
+== Float as approximation
+----
+== How do floats work?
+----
+== Compare Floats
+----
