@@ -55,7 +55,7 @@ nnoremap <Leader>p :call <SID>JumpPrompt()<CR>
 " different from regular vi. They are highly recommended though.
 set showcmd         " Show (partial) command in status line.
 set showmatch       " Show matching brackets.
-set ignorecase      " Do case insensitive matching
+set noignorecase    " Do case sensitive matching
 "set incsearch      " Incremental search
 "set autowrite      " Automatically save before commands like :next and :make
 
@@ -310,7 +310,8 @@ let g:zenburn_old_Visual=1
 set t_Co=256
 
 set bg=dark
-colors zenburn
+"colors zenburn
+"set bg=light
 
 
 set exrc
@@ -353,4 +354,4 @@ endfun
 let g:pep8_map='<leader>8'
 
 " set clipboard to use the + register -- the X clipboard
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
