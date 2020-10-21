@@ -17,6 +17,31 @@
 [merge]
     tool = vimdiff
 [alias]
-    vimdiff = difftool -y -t vimdiff -R
+  refix   = !GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash
+  lastrev = log -n 1 --pretty=tformat:%H --
+  lbs     = log --stat origin/master..
+  lb      = log origin/master..
+  mod     = !git diff --name-only --no-color -z | fzf --read0 -m
+  edit    = !$EDITOR $(git mod)
+  vim     = edit
+
+  modified2 = !git diff --name-only
+  mod2      = "!f() { git modified2 -z --no-color \"$@\" | fzf --read0 -m; }; f"
+  vim2      = "!g() { $EDITOR $(git mod2); }; g"
+  vimdiff = difftool -y -t vimdiff -R
 [hub]
     protocol = https
+[url "git@git.ziprecruiter.com:"]
+  insteadOf = "https://git.ziprecruiter.com/"
+[pull]
+  rebase     = true
+[rebase]
+  autosquash = true
+  autostash  = true
+[push]
+    default = simple
+[rerere]
+    enabled = true
+[diff "odt"]
+  textconv = odt2txt
+  binary = true
