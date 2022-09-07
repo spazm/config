@@ -1,0 +1,61 @@
+#!/bin/zsh
+#
+# An example hook script to prepare the commit log message.
+# Called by "git commit" with the name of the file that has the
+# commit message, followed by the description of the commit
+# message's source.  The hook's purpose is to edit the commit
+# message file.  If the hook fails with a non-zero status,
+# the commit is aborted.
+#
+# To enable this hook, rename this file to "prepare-commit-msg".
+
+# This hook includes three examples. The first one removes the
+# "# Please enter the commit message..." help message.
+#
+# The second includes the output of "git diff --name-status -r"
+# into the message, just before the "git status" output.  It is
+# commented because it doesn't cope with --amend or with squashed
+# commits.
+#
+# The third example adds a Signed-off-by line to the message, that can
+# still be edited.  This is rarely a good idea.
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+# SOB=$(git var GIT_COMMITTER_IDENT | sed -n 's/^\(.*>\).*$/Signed-off-by: \1/p')
+# git interpret-trailers --in-place --trailer "$SOB" "$COMMIT_MSG_FILE"
+# if test -z "$COMMIT_SOURCE"
+# then
+#   /usr/bin/perl -i.bak -pe 'print "\n" if !$first_line++' "$COMMIT_MSG_FILE"
+# fi
+
+# if commit_msg_file is writable file and bug set:
+#   if bug already exists in message then we are done.
+#   elif prefix and prefix exists in message then replace with correct message
+#   else append prefix+bug
+#   else append message.
+
+bug=$(git bug)
+match="[$bug]"
+pattern="^\[$bug\]"
+msg="[$bug] "
+
+
+
+if [[ -w $COMMIT_MSG_FILE ]]; then
+    if [[ -n $bug ]]; then
+        if (head -1 "$COMMIT_MSG_FILE" | grep --quiet "$pattern" )> /dev/null; then
+            echo "Found pattern '$pattern' for bug '$bug' in commit message [$COMMIT_MSG_FILE]";
+        else
+            echo "prepending '$msg' to commit subject"
+            perl -pi -e "s/^(\[.*?\]\s*)?/$msg/ "'if !$seen++' "$COMMIT_MSG_FILE"
+        fi
+    else
+        echo "bug not set"
+    fi
+else
+    echo 'commit msg file is not a writable file!'
+fi
+
