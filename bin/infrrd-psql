@@ -1,0 +1,34 @@
+#!/bin/sh -ex
+
+user='postgres/user'
+password='postgres/password'
+
+if [ $# -gt 1 ] && [ "$1" = "--app" ]; then
+    echo "matching app check"
+    app="$2"
+    shift 2
+    echo "matching app check: ${app}"
+    user=${app}/postgres_user
+    password=${app}/postgres_password
+fi
+
+# json output values are double-quoted.  Use text output for raw strings.
+export PGUSER=$(aws --region=us-west-2 --profile infrrd-polaris-dev ssm get-parameter \
+    --name /runtime/dev01-us-west-2/base/${user} \
+    --output text \
+    --query Parameter.Value)
+export PGPASSWORD=$(aws --region=us-west-2 --profile infrrd-polaris-dev ssm get-parameter \
+    --name /runtime/dev01-us-west-2/base/${password} \
+    --with-decryption \
+    --output text \
+    --query Parameter.Value)
+export PGHOST=$(aws --region=us-west-2 --profile infrrd-polaris-dev ssm get-parameter \
+    --name /runtime/dev01-us-west-2/base/postgres/host \
+    --output text \
+    --query Parameter.Value)
+export PGPORT=$(aws --region=us-west-2 --profile infrrd-polaris-dev ssm get-parameter \
+    --name /runtime/dev01-us-west-2/base/postgres/port \
+    --output text \
+    --query Parameter.Value)
+
+psql $*
