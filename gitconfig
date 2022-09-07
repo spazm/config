@@ -1,6 +1,7 @@
 [user]
     name = Andrew Grangaard
-    email = granny-github@ofb.net
+    email = andrew@malachiarts.com
+    # email = granny-github@ofb.net
 [color]
     branch = always
     status = auto
@@ -10,20 +11,20 @@
 [core]
     editor = /usr/bin/env vim
     pager = less -FRSX
-    whitespace = tab-in-indent
-    excludesfile = /opt/boxen/config/git/gitignore
-[credential]
-    helper = /opt/boxen/bin/boxen-git-credential
+    whitespace = tab-in-indent,tab-in-indent
 [merge]
     tool = vimdiff
 [alias]
   refix   = !GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash
+  freebase = refix
   lastrev = log -n 1 --pretty=tformat:%H --
   lbs     = log --stat origin/master..
   lb      = log origin/master..
   mod     = !git diff --name-only --no-color -z | fzf --read0 -m
+  modh    = !git diff --name-only --no-color -z $GIT_PREFIX | fzf --read0 -m
   edit    = !$EDITOR $(git mod)
   vim     = edit
+  path    = rev-parse --show-prefix
 
   modified2 = !git diff --name-only
   mod2      = "!f() { git modified2 -z --no-color \"$@\" | fzf --read0 -m; }; f"
@@ -33,15 +34,19 @@
     protocol = https
 [url "git@git.ziprecruiter.com:"]
   insteadOf = "https://git.ziprecruiter.com/"
+[url "git@github.prod.hulu.com:"]
+  #insteadOf = "https://github.prod.hulu.com/"
 [pull]
   rebase     = true
 [rebase]
   autosquash = true
   autostash  = true
 [push]
-    default = simple
+  default = simple
 [rerere]
-    enabled = true
+  enabled = true
 [diff "odt"]
   textconv = odt2txt
   binary = true
+[init]
+  defaultBranch = main
