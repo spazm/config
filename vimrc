@@ -309,7 +309,7 @@ let g:zenburn_alternate_Visual=1
 let g:zenburn_old_Visual=1
 set t_Co=256
 
-set bg=dark
+set bg=light
 "colors zenburn
 "set bg=light
 
