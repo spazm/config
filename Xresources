@@ -20,7 +20,7 @@ xterm*faceSize:                 13
 emacs*Foreground:               white
 emacs*Background:		black
 emacs*Mouse:			yellow
-emacs*font:			9x15
+emacs*font:			DejaVu Sans Mono-18
 emacs*pointerColor:		green
 emacs*cursorColor:		white
 
